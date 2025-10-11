@@ -5,10 +5,10 @@
 ### [사용자 등록](https://github.com/OUS-KR/INFJ.KR/issues/new?template=01-user-register-by-issue.yml)
 
 - `INFJ.KR/u/{사용자 아이디}` 주소 기반의 사용자 등록
-  - 사용자 예제: [INFJ.KR/u/infj](https://infj.kr/u/infj)
+  - 사용자 예제: [INFJ.KR/u/infj](https://infj.kr/u/infj), [INFJ.KR/u/tests/](https://infj.kr/u/tests)
   - [사용자 등록 예제](https://github.com/OUS-KR/INFJ.KR/issues/1)
 - `INFJ.KR/@{사용자 아이디}` 형태의 짧은 주소 지원
-  - 사용자 예제: [INFJ.KR/@infj](https://infj.kr/@infj)
+  - 사용자 예제: [INFJ.KR/@infj](https://infj.kr/@infj), [INFJ.KR/@tests](https://infj.kr/@tests)
 - 부적절한 아이디 (욕설, 관리자 등)는 제한되어 등록 시 삭제
 
 ### [사용자 단축주소 생성](https://github.com/OUS-KR/INFJ.KR/issues/new?template=02-user-short-url-register-by-issue.yml)
