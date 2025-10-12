@@ -11,32 +11,70 @@
         <a href="/u/tests/" class="logo">INFJ.KR Tests</a>
         <div class="nav-right-section">
             <nav class="nav-links" id="nav-links">
-                <!-- Dynamic menu will be loaded here by dynamic-menu.js -->
+                <div class="nav-item dropdown">
+                    <button class="dropdown-toggle">오늘의 콘텐츠</button>
+                    <div class="dropdown-menu">
+                        <a href="/u/tests/today-fortune/">오늘의 운세</a>
+                        <a href="/u/tests/today-game/">오늘의 게임</a>
+                    </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <button class="dropdown-toggle">정보</button>
+                    <div class="dropdown-menu">
+                        <a href="/u/tests/info-characteristics/">특징</a>
+                        <a href="/u/tests/info-careers/">커리어</a>
+                        <a href="/u/tests/info-cognitive-functions/">인지기능</a>
+                        <a href="/u/tests/info-subtypes/">하위유형</a>
+                        <a href="/u/tests/info-relationships/">인간관계</a>
+                        <a href="/u/tests/info-misconceptions/">흔한 오해</a>
+                        <a href="/u/tests/info-hobbies/">추천 취미</a>
+                        <a href="/u/tests/info-productivity/">생산성 가이드</a>
+                    </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <button class="dropdown-toggle">테스트</button>
+                    <div class="dropdown-menu">
+                        <a href="/u/tests/test-inner-values-exploration/">내면의 가치관 탐색 테스트</a>
+                        <a href="/u/tests/test-relationship-style/">연애 스타일 테스트</a>
+                        <a href="/u/tests/test-stress-triggers/">스트레스 테스트</a>
+                        <a href="/u/tests/test-future-insight/">미래 예측 및 통찰력 테스트</a>
+                        <a href="/u/tests/test-bingo/">빙고 챌린지</a>
+                        <a href="/u/tests/test-empathy-for-others/">타인에 대한 공감 능력 테스트</a>
+                        <a href="/u/tests/test-personal-growth-guidance/">개인 성장 가이드 테스트</a>
+                    </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <button class="dropdown-toggle">게임</button>
+                    <div class="dropdown-menu">
+                        <a href="/u/tests/game-narrative-adventure/">내러티브 어드벤처</a>
+                        <a href="/u/tests/game-moral-dilemma/">도덕적 딜레마 게임</a>
+                        <a href="/u/tests/game-social-impact-strategy/">사회적 영향 전략</a>
+                        <a href="/u/tests/game-future-vision/">미래 비전 시뮬레이션</a>
+                        <a href="/u/tests/game-story-creator/">스토리 창작</a>
+                        <a href="/u/tests/game-counselor-sim/">상담사 시뮬레이션</a>
+                        <a href="/u/tests/game-prophecy-interpreter/">예언 해석가</a>
+                        <a href="/u/tests/game-sanctuary-builder/">안식처 건설</a>
+                        <a href="/u/tests/game-music-memory/">음악 기억력 게임</a>
+                        <a href="/u/tests/game-rhythm-master/">리듬 게임</a>
+                    </div>
+                </div>
             </nav>
             <button id="theme-switcher" class="theme-switcher">🌙</button>
             <button id="hamburger" class="hamburger">☰</button>
         </div>
     </header>
-    <div id="quiz-container" class="container">
-        <div id="start-area">
-            <h1>INFJ 빙고 챌린지</h1>
-            <p>INFJ 특징으로 구성된 빙고 게임</p>
-            <button id="start-btn" class="btn btn-primary">테스트 시작하기</button>
+    <div class="container">
+        <h1>INFJ 빙고 챌린지</h1>
+        <p style="text-align:center;">당신은 얼마나 INFJ의 특징을 가지고 있을까요? 재미있는 빙고 챌린지를 통해 당신의 INFJ 지수를 확인하고, 친구들과 공감대를 형성해 보세요!</p>
+        
+        <div class="bingo-controls">
+            <div id="bingo-counter">체크된 항목 0/25</div>
+            <button id="reset-btn">초기화</button>
         </div>
-
-        <div id="quiz-area" class="hidden">
-            <div class="progress-bar-container">
-                <div id="progress-bar"></div>
-            </div>
-            <div id="question"></div>
-            <div id="answers"></div>
-        </div>
-
-        <div id="result-area" class="hidden">
-            <div class="result-card">
-                <h2 id="result-title" class="result-title"></h2>
-                <p id="result-text"></p>
-                <button id="retry-btn" class="btn btn-primary">다시하기</button>
+        
+        <div class="bingo-container">
+            <div class="bingo-grid" id="bingo-grid">
+                <!-- Bingo items will be inserted here by JavaScript -->
             </div>
         </div>
     </div>
@@ -44,126 +82,67 @@
     <script src="/u/tests/assets/js/main.js?20251012150000" defer></script>
     <script src="/u/tests/assets/js/dynamic-menu.js" defer></script>
     <script>
-        const quizContainer = document.getElementById('quiz-container');
-        const startArea = document.getElementById('start-area');
-        const quizArea = document.getElementById('quiz-area');
-        const resultArea = document.getElementById('result-area');
-        const startBtn = document.getElementById('start-btn');
-        const retryBtn = document.getElementById('retry-btn');
-        const questionEl = document.getElementById('question');
-        const answersEl = document.getElementById('answers');
-        const resultTitleEl = document.getElementById('result-title');
-        const resultTextEl = document.getElementById('result-text');
-        const progressBar = document.getElementById('progress-bar');
+        document.addEventListener('DOMContentLoaded', () => {
+            const bingoGrid = document.getElementById('bingo-grid');
+            const bingoCounter = document.getElementById('bingo-counter');
+            const resetBtn = document.getElementById('reset-btn');
+            let checkedCount = 0;
 
-        let currentQuestionIndex = 0;
-        let score = 0;
+            const bingoItems = [
+                "머릿속으로 소설 100편 씀",
+                "첫인상과 실제 모습이 다르다는 말 들어봄",
+                "유명한 '도어슬램' 시전해봄",
+                "\"혹시...\" \"아마도...\" 같은 추측성 말투",
+                "남의 감정이 내 감정 같아서 힘듦",
+                "계획 세우는 걸 좋아하지만, 계획대로 안 함",
+                "혼자만의 시간이 없으면 죽을 것 같음",
+                "칭찬 받아도 \"내가? 왜?\" 의심부터 함",
+                "인간관계에 의미 부여 엄청 함",
+                "겉으로는 웃고 있지만 속으로는 욕하고 있음",
+                "\"그럴 수 있지\" (하지만 속으로는 이해 안 됨)",
+                "세상의 모든 슬픔을 내가 다 짊어진 듯",
+                "\"다 너 잘되라고 하는 소리야\" (진심 300%)",
+                "눈치는 빠른데 모르는 척함",
+                "상대방 말 한마디에 일주일 동안 고민함",
+                "나는 특별하지만, 동시에 평범하고 싶음",
+                "부탁 거절 못 해서 끙끙 앓음",
+                "꽂힌 노래 하나만 무한 반복",
+                "겉은 온화, 속은 단호박",
+                "사소한 것에도 큰 의미를 부여함",
+                "싸우고 나면 혼자 시뮬레이션 100번 돌림",
+                "\"사람은 왜 살까?\" 같은 근본적인 질문 자주 함",
+                "나에 대해 말하는 거 어색하고 힘듦",
+                "모든 일에 최악의 상황부터 생각함",
+                "세상이 더 나은 곳이 되길 진심으로 바람"
+            ];
 
-        // Placeholder quiz data
-        const quizData = [
-            {
-                question: '이것은 INFJ 빙고 챌린지의 첫 번째 질문입니다.',
-                answers: [
-                    { text: '답변 1', score: 10 },
-                    { text: '답변 2', score: 5 },
-                    { text: '답변 3', score: 1 }
-                ]
-            },
-            {
-                question: '이것은 두 번째 질문입니다.',
-                answers: [
-                    { text: '답변 A', score: 10 },
-                    { text: '답변 B', score: 5 },
-                    { text: '답변 C', score: 1 }
-                ]
-            }
-        ];
+            // Create bingo cells
+            bingoItems.forEach(itemText => {
+                const cell = document.createElement('div');
+                cell.classList.add('bingo-cell');
+                cell.textContent = itemText;
+                bingoGrid.appendChild(cell);
 
-        startBtn.addEventListener('click', startQuiz);
-        retryBtn.addEventListener('click', startQuiz);
-
-        function setInitialView() {
-            startArea.style.display = 'block';
-            quizArea.style.display = 'none';
-            resultArea.style.display = 'none';
-        }
-
-        function startQuiz() {
-            currentQuestionIndex = 0;
-            score = 0;
-            
-            resultTitleEl.innerText = '';
-            resultTextEl.innerText = '';
-            
-            startArea.style.display = 'none';
-            quizArea.style.display = 'block';
-            resultArea.style.display = 'none';
-            
-            showQuestion();
-        }
-
-        function showQuestion() {
-            updateProgressBar();
-            const currentQuestion = quizData[currentQuestionIndex];
-            questionEl.innerText = currentQuestion.question;
-            answersEl.innerHTML = '';
-            currentQuestion.answers.forEach(answer => {
-                const button = document.createElement('button');
-                button.innerText = answer.text;
-                button.addEventListener('click', (e) => selectAnswer(answer.score, e.target));
-                answersEl.appendChild(button);
+                cell.addEventListener('click', () => {
+                    cell.classList.toggle('checked');
+                    updateCounter();
+                });
             });
-        }
 
-        function selectAnswer(answerScore, selectedButton) {
-            score += answerScore;
-            selectedButton.classList.add('selected');
-            
-            const answerButtons = answersEl.querySelectorAll('button');
-            answerButtons.forEach(button => button.disabled = true);
+            // Reset button logic
+            resetBtn.addEventListener('click', () => {
+                const checkedCells = document.querySelectorAll('.bingo-cell.checked');
+                checkedCells.forEach(cell => {
+                    cell.classList.remove('checked');
+                });
+                updateCounter();
+            });
 
-            setTimeout(() => {
-                currentQuestionIndex++;
-                updateProgressBar();
-
-                if (currentQuestionIndex < quizData.length) {
-                    quizContainer.style.opacity = 0;
-                    setTimeout(() => {
-                        showQuestion();
-                        quizContainer.style.opacity = 1;
-                    }, 400);
-                } else {
-                    showResult();
-                }
-            }, 500);
-        }
-
-        function showResult() {
-            quizArea.style.display = 'none';
-            resultArea.style.display = 'block';
-            let resultTitle = '';
-            let resultMessage = '';
-            // Generic result based on score
-            if (score >= 15) {
-                resultTitle = '높은 점수';
-                resultMessage = '당신은 이 테스트에서 높은 점수를 받았습니다!';
-            } else if (score >= 10) {
-                resultTitle = '중간 점수';
-                resultMessage = '당신은 이 테스트에서 중간 점수를 받았습니다.';
-            } else {
-                resultTitle = '낮은 점수';
-                resultMessage = '당신은 이 테스트에서 낮은 점수를 받았습니다.';
+            function updateCounter() {
+                checkedCount = document.querySelectorAll('.bingo-cell.checked').length;
+                bingoCounter.textContent = `체크된 항목 ${checkedCount}/25`;
             }
-            resultTitleEl.innerText = resultTitle;
-            resultTextEl.innerText = resultMessage;
-        }
-
-        function updateProgressBar() {
-            const progress = (currentQuestionIndex / quizData.length) * 100;
-            progressBar.style.width = `${progress}%`;
-        }
-
-        setInitialView();
+        });
     </script>
 </body>
 </html>
