@@ -140,6 +140,85 @@
 
     // --- Game Implementations for INFJ ---
 
+    // Game 0: Today's Insight Challenge
+    function setupInsightChallengeGame() {
+        document.getElementById('gameTitle').innerText = "오늘의 게임: 통찰력 챌린지";
+        const gameArea = document.getElementById('gameArea');
+        const dilemmas = [
+            { q: "친구가 자신의 꿈과 현실 사이에서 갈등하며 힘들어합니다. 당신은 어떻게 조언하시겠습니까?", a: ["친구의 내면을 깊이 이해하고, 꿈의 본질적인 의미와 친구의 진정한 가치를 찾아보도록 돕는다.", "현실적인 어려움을 직시하고, 꿈을 잠시 접어두고 안정적인 길을 택하도록 권한다.", "친구의 꿈을 무조건 지지하며, 용기를 잃지 않도록 격려한다."], correct: 0 },
+            { q: "사회에 만연한 불평등을 목격했습니다. INFJ로서 당신의 내면은 어떻게 반응하나요?", a: ["불평등의 근본적인 원인을 통찰하고, 장기적인 해결 방안을 모색한다.", "분노하며 즉시 사회 운동에 참여하여 변화를 요구한다.", "개인의 힘으로는 어렵다고 판단하고, 조용히 자신의 역할을 다한다."], correct: 0 },
+            { q: "어떤 사람을 처음 만났을 때, 그 사람의 말과 행동 이면에 숨겨진 진짜 의도가 느껴집니다. 어떻게 하시겠습니까?", a: ["그 사람의 내면을 이해하려 노력하고, 필요하다면 진심으로 다가간다.", "겉으로 드러난 모습만을 보고 판단하며, 거리를 둔다.", "직접적으로 그 사람의 의도를 물어본다."], correct: 0 },
+            { q: "미래에 대한 불확실성으로 많은 사람들이 불안해합니다. INFJ로서 당신은 어떤 메시지를 전달하시겠습니까?", a: ["불안의 본질을 이해하고, 희망과 비전을 제시하여 내면의 평화를 찾도록 돕는다.", "현실적인 위험을 경고하고, 철저한 대비를 강조한다.", "긍정적인 생각으로 불안을 극복하라고 격려한다."], correct: 0 }
+        ];
+        const dilemma = dilemmas[Math.floor(currentRandFn() * dilemmas.length)];
+        currentCorrectAnswer = dilemma.correct;
+        gameArea.innerHTML = `
+            <div class="game-display question">${dilemma.q}</div>
+            <div class="choices">
+                ${dilemma.a.map((choice, index) => `<button class="choice-btn" data-index="${index}">${choice}</button>`).join('')}
+            </div>
+        `;
+        document.getElementById('game-input-area').innerHTML = '';
+        gameInProgress = true;
+    }
+
+    // --- Game Dispatcher and Common Logic ---
+    const gameTypes = [
+        setupInsightChallengeGame
+    ];
+
+    function getDayOfWeekText(day) {
+        const messages = [
+            "일요일의 마무리, 당신의 내면을 깊이 들여다보는 시간을 가져보세요.", // Sunday
+            "새로운 한 주, 당신의 통찰력으로 세상을 밝혀주세요!", // Monday
+            "오늘은 당신의 직관이 빛을 발하는 날입니다.", // Tuesday
+            "주 중반, 복잡한 문제의 본질을 꿰뚫어 보세요.", // Wednesday
+            "당신의 비전이 세상을 더 나은 곳으로 만듭니다.", // Thursday
+            "주말을 앞둔 금요일, 의미 있는 영감을 찾아보세요.", // Friday
+            "여유로운 토요일, 깊은 사색을 통해 자신을 성찰해 보세요.", // Saturday
+        ];
+        return messages[day];
+    }
+
+    function showFeedback(isCorrect, message) {
+        const feedbackMessage = document.getElementById('feedbackMessage');
+        if (isCorrect) {
+            feedbackMessage.innerText = message || "정답입니다! 역시 INFJ, 깊은 통찰력이 돋보이는군요.";
+            feedbackMessage.className = "feedback-message correct";
+        } else {
+            feedbackMessage.innerText = message || "아쉽네요. 다른 본질적인 의미는 없었을까요?";
+            feedbackMessage.className = "feedback-message incorrect";
+        }
+        gameInProgress = false;
+    }
+
+    function handleChoiceClick(event) {
+        if (!gameInProgress) return;
+        const selectedIndex = parseInt(event.target.getAttribute('data-index'));
+        showFeedback(selectedIndex === currentCorrectAnswer);
+        document.querySelectorAll('.choice-btn').forEach(btn => btn.disabled = true);
+    }
+
+    function initDailyGame() {
+        const today = new Date();
+        const seed = getDailySeed();
+        currentRandFn = mulberry32(seed);
+        
+        const dayOfWeek = today.getDay();
+        document.getElementById('gameDescription').innerText = getDayOfWeekText(dayOfWeek);
+
+        const gameTypeIndex = Math.floor(currentRandFn() * gameTypes.length + dayOfWeek) % gameTypes.length;
+        gameTypes[gameTypeIndex]();
+
+        document.getElementById('feedbackMessage').innerText = '';
+        document.getElementById('feedbackMessage').className = "feedback-message";
+        
+        // Add event listeners after creating the elements
+        document.querySelectorAll('.choice-btn').forEach(btn => {
+            btn.addEventListener('click', handleChoiceClick);
+        });
+    }
+
     // Game 0: Moral Choice
     function setupMoralChoiceGame() {
         document.getElementById('gameTitle').innerText = "오늘의 게임: 도덕적 선택";
