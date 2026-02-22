@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>INFJ — infj.kr</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Cinzel:wght@400;600;700&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet" />
+
+  <style type="text/tailwindcss">
+    @theme {
+      /* Indigo — Ni depth, inner cosmos */
+      --color-indigo-100: #e8e8f8;
+      --color-indigo-200: #c8c8f0;
+      --color-indigo-300: #9898e0;
+      --color-indigo-400: #6868c8;
+      --color-indigo-500: #4040a8;
+      --color-indigo-600: #282880;
+      --color-indigo-700: #181858;
+      --color-indigo-800: #0e0e38;
+      --color-indigo-900: #080820;
+      --color-indigo-950: #040410;
+
+      /* Violet — mystic, prophetic */
+      --color-mystic-200: #ddc8f8;
+      --color-mystic-300: #bb98f0;
+      --color-mystic-400: #9968d8;
+      --color-mystic-500: #7838b8;
+      --color-mystic-600: #581890;
+
+      /* Silver — moonlight, clarity */
+      --color-silver-100: #f4f4f8;
+      --color-silver-200: #d8d8e8;
+      --color-silver-300: #b0b0c8;
+      --color-silver-400: #8888a8;
+      --color-silver-500: #606080;
+
+      /* Crimson — hidden passion beneath stillness */
+      --color-ember-300: #e8a0b0;
+      --color-ember-400: #c86880;
+      --color-ember-500: #a03858;
+
+      /* Abyss — deepest background */
+      --color-abyss-900: #060410;
+      --color-abyss-950: #030208;
+
+      --font-display: "Cinzel", "Times New Roman", serif;
+      --font-serif:   "EB Garamond", Georgia, serif;
+      --font-body:    "Raleway", system-ui, sans-serif;
+    }
+
+    @layer base {
+      *, *::before, *::after { box-sizing: border-box; }
+      html {
+        scroll-behavior: smooth;
+        background-color: var(--color-abyss-950);
+        color: var(--color-silver-200);
+      }
+      body {
+        font-family: var(--font-body);
+        font-weight: 300;
+        overflow-x: hidden;
+      }
+      ::selection {
+        background-color: var(--color-mystic-500);
+        color: var(--color-silver-100);
+      }
+      ::-webkit-scrollbar { width: 2px; }
+      ::-webkit-scrollbar-track { background: var(--color-abyss-950); }
+      ::-webkit-scrollbar-thumb { background: rgba(153,104,216,0.4); }
+    }
+
+    /* ── Canvas ── */
+    #cosmos-canvas {
+      position: fixed; inset: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    /* Deep nebula background */
+    .nebula-layer {
+      position: fixed; inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background:
+        radial-gradient(ellipse 90% 70% at 15% 20%,
+          rgba(64,64,168,0.12) 0%, transparent 65%),
+        radial-gradient(ellipse 70% 60% at 85% 75%,
+          rgba(120,56,184,0.10) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 50% 50%,
+          rgba(160,56,88,0.06)  0%, transparent 55%);
+      animation: nebula-drift 20s ease-in-out infinite alternate;
+    }
+    @keyframes nebula-drift {
+      0%   { opacity: 0.7; transform: scale(1)    rotate(0deg); }
+      50%  { opacity: 1.0; transform: scale(1.03) rotate(0.3deg); }
+      100% { opacity: 0.8; transform: scale(0.98) rotate(-0.3deg); }
+    }
+
+    /* Radial vignette — deeper than other pages */
+    .vignette {
+      position: fixed; inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      background: radial-gradient(ellipse at 50% 45%,
+        transparent 22%, rgba(3,2,8,0.92) 100%);
+    }
+
+    /* ── Site Wrapper ── */
+    .site-wrapper {
+      position: relative;
+      z-index: 10;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    .glass-header {
+      position: sticky; top: 0;
+      backdrop-filter: blur(24px) saturate(1.4);
+      background: rgba(3, 2, 8, 0.80);
+      border-bottom: 1px solid rgba(153,104,216,0.12);
+      z-index: 100;
+    }
+
+    .logo-infj {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: 0.4em;
+      text-decoration: none;
+      color: var(--color-mystic-300);
+      text-shadow: 0 0 30px rgba(153,104,216,0.35);
+      position: relative;
+    }
+    .logo-infj::after {
+      content: '';
+      position: absolute; bottom: -3px; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg,
+        transparent, rgba(153,104,216,0.5), transparent);
+    }
+
+    .nav-link {
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      font-weight: 300;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(216,216,232,0.38);
+      text-decoration: none;
+      transition: color 0.35s;
+      position: relative;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute; bottom: -3px; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg,
+        var(--color-mystic-400), var(--color-indigo-300));
+      transform: scaleX(0); transform-origin: center;
+      transition: transform 0.35s ease;
+    }
+    .nav-link:hover { color: rgba(216,216,232,0.85); }
+    .nav-link:hover::after { transform: scaleX(1); }
+
+    .domain-badge {
+      font-family: var(--font-body);
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      color: rgba(153,104,216,0.45);
+      border: 1px solid rgba(153,104,216,0.18);
+      padding: 3px 10px;
+    }
+
+    /* ── Hero ── */
+    .hero-section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Ghost text — barely visible */
+    .hero-bg-text {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: var(--font-display);
+      font-size: clamp(18vw, 28vw, 38vw);
+      font-weight: 700;
+      line-height: 1;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(153,104,216,0.055);
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+      letter-spacing: 0.08em;
+    }
+
+    /* Rotating cosmic ring */
+    .cosmic-ring {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(500px, 80vw);
+      height: min(500px, 80vw);
+      border-radius: 50%;
+      border: 1px solid rgba(153,104,216,0.08);
+      pointer-events: none;
+      animation: ring-rotate 60s linear infinite;
+    }
+    .cosmic-ring::before {
+      content: '';
+      position: absolute; inset: 20px;
+      border-radius: 50%;
+      border: 1px solid rgba(64,64,168,0.06);
+      animation: ring-rotate 40s linear infinite reverse;
+    }
+    .cosmic-ring::after {
+      content: '';
+      position: absolute; inset: 50px;
+      border-radius: 50%;
+      border: 1px solid rgba(160,56,88,0.05);
+      animation: ring-rotate 25s linear infinite;
+    }
+    @keyframes ring-rotate {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    /* Inner glow pulse */
+    .core-glow {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(280px, 50vw);
+      height: min(280px, 50vw);
+      border-radius: 50%;
+      background: radial-gradient(circle,
+        rgba(153,104,216,0.08) 0%,
+        rgba(64,64,168,0.05)  40%,
+        transparent 70%);
+      pointer-events: none;
+      animation: core-pulse 7s ease-in-out infinite alternate;
+    }
+    @keyframes core-pulse {
+      from { opacity: 0.5; transform: translate(-50%,-50%) scale(0.92); }
+      to   { opacity: 1.0; transform: translate(-50%,-50%) scale(1.08); }
+    }
+
+    .advocate-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-body);
+      font-size: 0.58rem;
+      font-weight: 300;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--color-mystic-300);
+      border: 1px solid rgba(153,104,216,0.28);
+      padding: 5px 16px;
+      margin-bottom: 3rem;
+    }
+    .advocate-badge::before {
+      content: '◈';
+      font-size: 0.6rem;
+      color: var(--color-mystic-400);
+      animation: symbol-pulse 4s ease-in-out infinite;
+    }
+    @keyframes symbol-pulse {
+      0%,100% { opacity: 1;   transform: scale(1)    rotate(0deg); }
+      50%      { opacity: 0.3; transform: scale(0.7)  rotate(180deg); }
+    }
+
+    .logo-display {
+      font-family: var(--font-display);
+      font-size: clamp(4.5rem, 14vw, 12rem);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 0.35em;
+      color: var(--color-silver-100);
+      text-shadow:
+        0 0 40px rgba(153,104,216,0.3),
+        0 0 80px  rgba(64,64,168,0.15),
+        0 0 120px rgba(153,104,216,0.08);
+      animation: ascend 1.4s cubic-bezier(0.16,1,0.3,1) forwards;
+      position: relative;
+    }
+    @keyframes ascend {
+      from { opacity: 0; transform: translateY(30px) scale(0.94); filter: blur(8px); }
+      to   { opacity: 1; transform: translateY(0)    scale(1);    filter: blur(0); }
+    }
+
+    /* Rarest type notation */
+    .rarest-note {
+      font-family: var(--font-body);
+      font-size: 0.58rem;
+      font-weight: 200;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: rgba(216,216,232,0.28);
+      margin-top: 0.8rem;
+      animation: fade-up 1s 0.5s both;
+    }
+
+    .hero-tagline {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: clamp(1rem, 2.5vw, 1.55rem);
+      font-weight: 400;
+      color: rgba(216,216,232,0.6);
+      letter-spacing: 0.05em;
+      margin-top: 2.2rem;
+      animation: fade-up 1s 0.35s both;
+    }
+
+    /* Thin divider with diamond center */
+    .divider-mystic {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 2.4rem auto;
+      animation: fade-up 1s 0.5s both;
+    }
+    .mystic-line {
+      width: 60px; height: 1px;
+      background: linear-gradient(90deg,
+        transparent, rgba(153,104,216,0.3));
+    }
+    .mystic-line.right {
+      background: linear-gradient(90deg,
+        rgba(153,104,216,0.3), transparent);
+    }
+    .mystic-gem {
+      width: 5px; height: 5px;
+      background: var(--color-mystic-400);
+      transform: rotate(45deg);
+      box-shadow: 0 0 10px rgba(153,104,216,0.6);
+    }
+
+    .hero-quote {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: clamp(0.9rem, 1.9vw, 1.08rem);
+      font-weight: 400;
+      color: rgba(216,216,232,0.38);
+      max-width: 460px;
+      line-height: 2.0;
+      animation: fade-up 1s 0.6s both;
+    }
+
+    .trait-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: var(--font-body);
+      font-size: 0.58rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 5px 13px;
+      border: 1px solid rgba(153,104,216,0.15);
+      color: rgba(216,216,232,0.45);
+      transition: all 0.35s;
+      cursor: default;
+    }
+    .trait-pill:hover {
+      color: rgba(216,216,232,0.9);
+      border-color: rgba(153,104,216,0.5);
+      background: rgba(153,104,216,0.07);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(153,104,216,0.12);
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--color-silver-100);
+      background: transparent;
+      border: 1px solid rgba(153,104,216,0.38);
+      padding: 15px 44px;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.35s, color 0.35s, box-shadow 0.35s;
+    }
+    /* Mystic fill from center */
+    .cta-btn::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at center,
+        rgba(153,104,216,0.18) 0%, transparent 70%);
+      opacity: 0; transition: opacity 0.5s;
+    }
+    .cta-btn::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg,
+        transparent, var(--color-mystic-400), transparent);
+      transform: scaleX(0); transform-origin: center;
+      transition: transform 0.5s ease;
+    }
+    .cta-btn:hover::before  { opacity: 1; }
+    .cta-btn:hover::after   { transform: scaleX(1); }
+    .cta-btn:hover {
+      border-color: rgba(153,104,216,0.7);
+      box-shadow: 0 0 30px rgba(153,104,216,0.15),
+                  inset 0 0 20px rgba(153,104,216,0.05);
+    }
+
+    .scroll-indicator {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      margin-top: 5rem;
+      animation: fade-up 1s 1.3s both;
+    }
+    .scroll-label {
+      font-family: var(--font-body);
+      font-size: 0.52rem;
+      font-weight: 200;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: rgba(216,216,232,0.18);
+    }
+    .scroll-line {
+      width: 1px; height: 55px;
+      background: linear-gradient(to bottom,
+        var(--color-mystic-500), transparent);
+      animation: scroll-descend 2.8s ease-in-out infinite;
+    }
+    @keyframes scroll-descend {
+      0%   { transform: scaleY(0); transform-origin: top; opacity: 0.8; }
+      50%  { transform: scaleY(1); transform-origin: top; opacity: 0.8; }
+      51%  { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
+    }
+
+    /* ── Stats Row ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top:    1px solid rgba(153,104,216,0.08);
+      border-bottom: 1px solid rgba(153,104,216,0.08);
+    }
+    .stat-cell {
+      padding: 3rem 2rem;
+      text-align: center;
+      border-right: 1px solid rgba(153,104,216,0.08);
+      transition: background 0.35s;
+    }
+    .stat-cell:last-child { border-right: none; }
+    .stat-cell:hover { background: rgba(153,104,216,0.04); }
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4.8vw, 3.4rem);
+      font-weight: 600;
+      color: var(--color-mystic-300);
+      letter-spacing: 0.1em;
+      line-height: 1;
+      text-shadow: 0 0 20px rgba(153,104,216,0.25);
+    }
+    .stat-label {
+      font-family: var(--font-body);
+      font-size: 0.57rem;
+      font-weight: 200;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(216,216,232,0.24);
+      margin-top: 8px;
+    }
+
+    /* ── Letter Blocks ── */
+    .letters-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid rgba(153,104,216,0.08);
+    }
+    .letter-block {
+      padding: 3.8rem 1.5rem;
+      border-right: 1px solid rgba(153,104,216,0.08);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.35s;
+    }
+    .letter-block:last-child { border-right: none; }
+    .letter-block:hover { background: rgba(153,104,216,0.025); }
+
+    /* Top line reveal */
+    .letter-block::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      transform: scaleX(0); transform-origin: center;
+      transition: transform 0.55s ease;
+    }
+    .letter-block:hover::before { transform: scaleX(1); }
+
+    /* Radial glow */
+    .letter-block::after {
+      content: '';
+      position: absolute; top: 50%; left: 50%;
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      transform: translate(-50%,-50%) scale(0);
+      transition: transform 0.6s ease;
+      pointer-events: none;
+    }
+    .letter-block:hover::after {
+      transform: translate(-50%,-50%) scale(2.2);
+    }
+
+    .l-i::before { background: linear-gradient(90deg, var(--color-indigo-300), var(--color-indigo-200)); }
+    .l-n::before { background: linear-gradient(90deg, var(--color-mystic-400), var(--color-mystic-300)); }
+    .l-f::before { background: linear-gradient(90deg, var(--color-ember-400),  var(--color-ember-300)); }
+    .l-j::before { background: linear-gradient(90deg, var(--color-silver-400), var(--color-silver-300)); }
+
+    .l-i::after { background: radial-gradient(circle, rgba(64,64,168,0.12),  transparent 70%); }
+    .l-n::after { background: radial-gradient(circle, rgba(153,104,216,0.12),transparent 70%); }
+    .l-f::after { background: radial-gradient(circle, rgba(160,56,88,0.10),  transparent 70%); }
+    .l-j::after { background: radial-gradient(circle, rgba(136,136,168,0.10),transparent 70%); }
+
+    .letter-char {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(3.2rem, 7.5vw, 6rem);
+      line-height: 1;
+      position: relative; z-index: 1;
+    }
+    .l-i .letter-char { color: var(--color-indigo-300); text-shadow: 0 0 25px rgba(64,64,168,0.3); }
+    .l-n .letter-char { color: var(--color-mystic-300); text-shadow: 0 0 25px rgba(153,104,216,0.3); }
+    .l-f .letter-char { color: var(--color-ember-300);  text-shadow: 0 0 25px rgba(160,56,88,0.3); }
+    .l-j .letter-char { color: var(--color-silver-300); }
+
+    .letter-word {
+      font-family: var(--font-body);
+      font-size: 0.55rem;
+      font-weight: 200;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(216,216,232,0.25);
+      margin-top: 8px;
+      position: relative; z-index: 1;
+    }
+    .letter-desc {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 0.83rem;
+      color: rgba(216,216,232,0.38);
+      margin-top: 10px;
+      line-height: 1.65;
+      position: relative; z-index: 1;
+    }
+
+    /* ── Section Shared ── */
+    .section-label {
+      font-family: var(--font-body);
+      font-size: 0.55rem;
+      font-weight: 200;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--color-mystic-500);
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4.5vw, 3.5rem);
+      font-weight: 600;
+      color: rgba(244,244,248,0.92);
+      line-height: 1.2;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Depths Cards ── */
+    .depths-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1px;
+      background: rgba(153,104,216,0.07);
+    }
+    .depth-card {
+      background: var(--color-abyss-950);
+      padding: 3.2rem 2.8rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.35s;
+    }
+    .depth-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      opacity: 0; transition: opacity 0.45s;
+    }
+    .depth-card::after {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      transform: scaleX(0); transform-origin: center;
+      transition: transform 0.5s ease;
+    }
+    .depth-card:hover { background: rgba(153,104,216,0.025); }
+    .depth-card:hover::before { opacity: 1; }
+    .depth-card:hover::after  { transform: scaleX(1); }
+
+    .card-indigo::before { background: radial-gradient(circle at top left, rgba(64,64,168,0.10), transparent 60%); }
+    .card-mystic::before { background: radial-gradient(circle at top left, rgba(153,104,216,0.10), transparent 60%); }
+    .card-ember::before  { background: radial-gradient(circle at top left, rgba(160,56,88,0.08), transparent 60%); }
+
+    .card-indigo::after { background: linear-gradient(90deg, var(--color-indigo-400), transparent); }
+    .card-mystic::after { background: linear-gradient(90deg, var(--color-mystic-400), transparent); }
+    .card-ember::after  { background: linear-gradient(90deg, var(--color-ember-400),  transparent); }
+
+    .card-symbol {
+      font-size: 1.8rem;
+      margin-bottom: 0.8rem;
+      display: block;
+      position: relative; z-index: 1;
+    }
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      line-height: 1.15;
+      letter-spacing: 0.08em;
+      position: relative; z-index: 1;
+    }
+    .card-indigo .card-title { color: var(--color-indigo-300); }
+    .card-mystic .card-title { color: var(--color-mystic-300); }
+    .card-ember  .card-title { color: var(--color-ember-300);  }
+
+    .card-desc {
+      font-family: var(--font-body);
+      font-size: 0.86rem;
+      line-height: 1.85;
+      color: rgba(216,216,232,0.4);
+      font-weight: 300;
+      position: relative; z-index: 1;
+    }
+
+    /* ── Oracle Box ── */
+    .oracle-box {
+      border: 1px solid rgba(153,104,216,0.14);
+      padding: 3.5rem;
+      position: relative;
+    }
+    /* Glowing corners */
+    .oracle-box::before,
+    .oracle-box::after {
+      content: '';
+      position: absolute;
+      width: 12px; height: 12px;
+    }
+    .oracle-box::before {
+      top: -1px; left: -1px;
+      border-top: 1px solid var(--color-mystic-400);
+      border-left: 1px solid var(--color-mystic-400);
+    }
+    .oracle-box::after {
+      bottom: -1px; right: -1px;
+      border-bottom: 1px solid var(--color-mystic-400);
+      border-right: 1px solid var(--color-mystic-400);
+    }
+    .oracle-label {
+      position: absolute; top: -0.65rem; left: 2.5rem;
+      font-family: var(--font-body);
+      font-size: 0.55rem;
+      font-weight: 200;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--color-mystic-400);
+      background: var(--color-abyss-950);
+      padding: 0 10px;
+    }
+
+    .oracle-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.8rem;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid rgba(153,104,216,0.06);
+    }
+    .oracle-row:last-child { border-bottom: none; }
+
+    .oracle-glyph {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      color: var(--color-mystic-500);
+      min-width: 2rem;
+      text-align: center;
+      padding-top: 2px;
+      opacity: 0.7;
+    }
+    .oracle-name {
+      font-family: var(--font-body);
+      font-size: 0.68rem;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(216,216,232,0.65);
+      margin-bottom: 5px;
+    }
+    .oracle-text {
+      font-family: var(--font-body);
+      font-size: 0.84rem;
+      line-height: 1.8;
+      color: rgba(216,216,232,0.33);
+      font-weight: 300;
+    }
+
+    /* ── Origin ── */
+    .origin-text {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: clamp(0.92rem, 1.9vw, 1.1rem);
+      line-height: 2.1;
+      color: rgba(216,216,232,0.38);
+      font-weight: 400;
+    }
+    .origin-text em {
+      font-style: normal;
+      color: var(--color-mystic-300);
+    }
+
+    /* ── Contact ── */
+    .contact-link {
+      font-family: var(--font-display);
+      font-size: clamp(1.1rem, 2.8vw, 2rem);
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-decoration: none;
+      color: var(--color-mystic-300);
+      text-shadow: 0 0 25px rgba(153,104,216,0.2);
+      border-bottom: 1px solid rgba(153,104,216,0.22);
+      padding-bottom: 4px;
+      transition: all 0.35s;
+    }
+    .contact-link:hover {
+      color: var(--color-mystic-200);
+      text-shadow: 0 0 45px rgba(153,104,216,0.4);
+      border-bottom-color: rgba(153,104,216,0.6);
+    }
+
+    /* ── Footer ── */
+    .site-footer {
+      padding: 2.5rem 3rem;
+      border-top: 1px solid rgba(153,104,216,0.07);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-copy {
+      font-family: var(--font-body);
+      font-size: 0.63rem;
+      font-weight: 200;
+      letter-spacing: 0.12em;
+      color: rgba(216,216,232,0.18);
+    }
+
+    /* ── Animations ── */
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up  { animation: fade-up 1s ease both; }
+    .delay-1  { animation-delay: 0.1s; }
+    .delay-2  { animation-delay: 0.25s; }
+    .delay-3  { animation-delay: 0.4s; }
+    .delay-4  { animation-delay: 0.55s; }
+    .delay-5  { animation-delay: 0.7s; }
+    .delay-6  { animation-delay: 0.9s; }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      .letters-grid { grid-template-columns: repeat(2, 1fr); }
+      .stats-row    { grid-template-columns: repeat(3, 1fr); }
+      .oracle-box   { padding: 2rem 1.5rem; }
+      .site-footer  { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="cosmos-canvas"></canvas>
+  <div class="nebula-layer" aria-hidden="true"></div>
+  <div class="vignette"     aria-hidden="true"></div>
+
+  <div class="site-wrapper">
+
+    <!-- ══════════════ HEADER ══════════════ -->
+    <header class="glass-header flex items-center justify-between px-8 py-5">
+      <a href="/" class="logo-infj">INFJ</a>
+      <nav class="hidden sm:flex gap-10">
+        <a href="#letters" class="nav-link">Letters</a>
+        <a href="#depths"  class="nav-link">Depths</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+      <div class="domain-badge hidden sm:block">infj.kr</div>
+    </header>
+
+    <main>
+
+      <!-- ══════════════ HERO ══════════════ -->
+      <section class="hero-section">
+        <div class="hero-bg-text" aria-hidden="true">INFJ</div>
+        <div class="cosmic-ring"  aria-hidden="true"></div>
+        <div class="core-glow"    aria-hidden="true"></div>
+
+        <div class="advocate-badge fade-up">The Advocate</div>
+
+        <h1 class="logo-display">INFJ</h1>
+        <p class="rarest-note">rarest of all — 1% of humanity</p>
+
+        <p class="hero-tagline">
+          깊이 보고, 조용히 바꾼다
+        </p>
+
+        <div class="divider-mystic fade-up delay-3">
+          <div class="mystic-line"></div>
+          <div class="mystic-gem"></div>
+          <div class="mystic-gem"
+            style="background:var(--color-indigo-400);box-shadow:0 0 10px rgba(64,64,168,0.5);"></div>
+          <div class="mystic-line right"></div>
+        </div>
+
+        <p class="hero-quote fade-up delay-3">
+          "I do not see the world as it is —<br />
+          I see it as the echo<br />
+          of what it is trying to become."
+        </p>
+
+        <div class="flex flex-wrap justify-center gap-3 mt-10 fade-up delay-4">
+          <span class="trait-pill">🔮 Insightful</span>
+          <span class="trait-pill">🌊 Empathetic</span>
+          <span class="trait-pill">✦ Principled</span>
+          <span class="trait-pill">🌙 Introspective</span>
+          <span class="trait-pill">🕊️ Idealistic</span>
+        </div>
+
+        <div class="mt-12 fade-up delay-5">
+          <a href="#depths" class="cta-btn">
+            Enter the Depths ◈
+          </a>
+        </div>
+
+        <div class="scroll-indicator">
+          <span class="scroll-label">descend</span>
+          <div class="scroll-line"></div>
+        </div>
+      </section>
+
+      <!-- ══════════════ STATS ══════════════ -->
+      <div class="stats-row">
+        <div class="stat-cell fade-up delay-1">
+          <div class="stat-number">1%</div>
+          <div class="stat-label">Of Humanity</div>
+        </div>
+        <div class="stat-cell fade-up delay-2">
+          <div class="stat-number">Ni</div>
+          <div class="stat-label">Dominant Function</div>
+        </div>
+        <div class="stat-cell fade-up delay-3">
+          <div class="stat-number">∞</div>
+          <div class="stat-label">Layers Within</div>
+        </div>
+      </div>
+
+      <!-- ══════════════ LETTERS ══════════════ -->
+      <section id="letters">
+        <div class="letters-grid">
+          <div class="letter-block l-i">
+            <div class="letter-char">I</div>
+            <div class="letter-word">Introverted</div>
+            <div class="letter-desc">내면의 우주에서<br />의미를 길어 올린다</div>
+          </div>
+          <div class="letter-block l-n">
+            <div class="letter-char">N</div>
+            <div class="letter-word">iNtuitive</div>
+            <div class="letter-desc">패턴 너머의 진실을<br />조용히 꿰뚫어 본다</div>
+          </div>
+          <div class="letter-block l-f">
+            <div class="letter-char">F</div>
+            <div class="letter-word">Feeling</div>
+            <div class="letter-desc">인류의 아픔을<br />자신의 것처럼 느낀다</div>
+          </div>
+          <div class="letter-block l-j">
+            <div class="letter-char">J</div>
+            <div class="letter-word">Judging</div>
+            <div class="letter-desc">비전을 향해<br />흔들리지 않고 나아간다</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════ DEPTHS SECTION ══════════════ -->
+      <section id="depths" class="py-24 px-6 max-w-6xl mx-auto">
+        <div class="mb-16 fade-up">
+          <div class="section-label mb-3">Inner Universe</div>
+          <div class="section-title">The Three Depths<br />of the Advocate</div>
+        </div>
+
+        <div class="depths-grid fade-up delay-2">
+          <div class="depth-card card-indigo">
+            <span class="card-symbol">🔮</span>
+            <div class="card-title">Prophecy</div>
+            <p class="card-desc">
+              INFJ의 지배 기능인 내향 직관(Ni)은 세상의 패턴을 내면 깊숙이 처리하여 미래를 예측하는 능력을 준다. 이것은 신비한 능력이 아니라, 수많은 정보를 무의식적으로 통합하여 갑작스럽게 명료한 통찰로 떠오르는 과정이다. INFJ가 "그냥 알았다"고 말할 때, 그들은 거짓말하는 것이 아니다. 그들의 마음은 보이지 않는 곳에서 계속 일하고 있다.
+            </p>
+          </div>
+          <div class="depth-card card-mystic">
+            <span class="card-symbol">🌊</span>
+            <div class="card-title">Empathy</div>
+            <p class="card-desc">
+              보조 기능인 외향 감정(Fe)은 INFJ에게 타인의 감정 상태를 마치 자신의 것처럼 느끼는 능력을 준다. 이 깊은 공감은 그들을 탁월한 상담자이자 조력자로 만들지만, 동시에 타인의 고통을 자신의 것으로 흡수하는 짐이 되기도 한다. INFJ는 인류의 고통에 열린 창문이다.
+            </p>
+          </div>
+          <div class="depth-card card-ember">
+            <span class="card-symbol">🕯️</span>
+            <div class="card-title">Purpose</div>
+            <p class="card-desc">
+              INFJ는 의미 없는 삶을 견디지 못한다. 모든 행동, 모든 관계, 모든 결정이 더 큰 목적과 연결되어야 한다. 이 강렬한 목적 의식이 그들을 세상을 바꾸는 옹호자로 만든다. 조용하지만 타협 없이, INFJ는 자신이 옳다고 믿는 것을 위해 끝까지 싸운다.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════ ORACLE BOX ══════════════ -->
+      <section class="py-10 px-6 max-w-6xl mx-auto">
+        <div class="oracle-box fade-up">
+          <span class="oracle-label">ADVOCATE_CODEX</span>
+
+          <div class="oracle-row">
+            <div class="oracle-glyph">I</div>
+            <div>
+              <div class="oracle-name">The Ni Telescope</div>
+              <div class="oracle-text">
+                내향 직관(Ni)은 망원경처럼 작동한다. 현재의 노이즈를 걸러내고, 저 멀리 있는 패턴과 의미에 초점을 맞춘다. INFJ는 종종 "왜 그것이 중요한지 아는가?"보다 몇 발 앞서 있다. 이 때문에 그들은 이해받기 어렵고, 동시에 가장 중요한 순간에 가장 필요한 존재가 된다.
+              </div>
+            </div>
+          </div>
+
+          <div class="oracle-row">
+            <div class="oracle-glyph">II</div>
+            <div>
+              <div class="oracle-name">The Paradox Self</div>
+              <div class="oracle-text">
+                INFJ는 살아있는 역설이다. 내향적이지만 사람을 깊이 사랑하고, 이상주의적이지만 냉철한 통찰을 가지며, 감정적이지만 논리적 분석을 즐기고, 유연해 보이지만 핵심 가치에서는 강철처럼 단단하다. 이 역설이 INFJ를 이해하기 어렵게 만들고, 동시에 가장 깊이 있는 존재로 만든다.
+              </div>
+            </div>
+          </div>
+
+          <div class="oracle-row">
+            <div class="oracle-glyph">III</div>
+            <div>
+              <div class="oracle-name">The Door Slam</div>
+              <div class="oracle-text">
+                INFJ는 무한히 참고 이해하지만, 한계에 도달하면 완전히 문을 닫는다. 이 "도어슬램"은 충동이 아니라 오랜 내적 처리의 결과다. 한번 닫힌 문은 다시 열리지 않는 경우가 많다. 이것은 냉정함이 아니라 자기 보호다. 그들이 세상과 계속 연결되기 위한 마지막 방어선이다.
+              </div>
+            </div>
+          </div>
+
+          <div class="oracle-row">
+            <div class="oracle-glyph">IV</div>
+            <div>
+              <div class="oracle-name">The Long Solitude</div>
+              <div class="oracle-text">
+                INFJ는 진정한 고독을 필요로 한다. 타인의 감정과 에너지를 지속적으로 처리하는 내면 시스템을 재충전하려면 완전한 혼자만의 시간이 필수적이다. 이 고독은 외로움이 아니라 자기 자신으로 돌아가는 여정이다. 우주가 스스로를 이해하기 위해 필요한 침묵처럼.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════ ORIGIN ══════════════ -->
+      <section class="py-20 px-6 max-w-4xl mx-auto text-center">
+        <div class="section-label mb-6 fade-up">About</div>
+        <p class="origin-text fade-up delay-1">
+          <em>INFJ</em>는 Myers-Briggs 16개 유형 중 가장 희귀한 유형으로,
+          전 인류의 단 <em>1~2%</em>만이 이 유형에 속한다.
+          <em>Advocate</em> 또는 <em>Mystic</em>이라 불리며,
+          조용하지만 깊고, 내향적이지만 인류를 향한 거대한 사랑을 품고 있다.
+          지배 기능인 <em>내향 직관(Ni)</em>은 세상의 보이지 않는 패턴을 꿰뚫고,
+          보조 기능인 <em>외향 감정(Fe)</em>은 그 통찰을 타인을 위한 행동으로 연결한다.
+          INFJ는 세상에서 가장 조용한 목소리로
+          가장 깊은 <em>진실</em>을 말하는 사람들이다.
+        </p>
+      </section>
+
+      <!-- ══════════════ CONTACT ══════════════ -->
+      <section id="contact" class="py-24 px-6 text-center"
+        style="border-top: 1px solid rgba(153,104,216,0.07);">
+        <div class="section-label mb-6 fade-up">Contact</div>
+        <div class="section-title mb-10 fade-up delay-1">Reach into<br />the Depths</div>
+        <a href="mailto:hello@infj.kr" class="contact-link fade-up delay-2">
+          hello@infj.kr
+        </a>
+        <p class="mt-8 fade-up delay-3"
+          style="font-family:var(--font-serif); font-style:italic;
+                 font-size:1rem; color:rgba(216,216,232,0.2); letter-spacing:0.06em;">
+          rare · visionary · quietly changing the world
+        </p>
+      </section>
+
+    </main>
+
+    <!-- ══════════════ FOOTER ══════════════ -->
+    <footer class="site-footer">
+      <span class="footer-copy">© 2026 infj.kr — All rights reserved.</span>
+      <span class="footer-copy" style="opacity:0.5;">
+        vision · empathy · purpose · solitude
+      </span>
+    </footer>
+
+  </div><!-- /site-wrapper -->
+
+  <!-- ══════════════ PARTICLE SCRIPT ══════════════ -->
+  <script>
+    (() => {
+      const canvas = document.getElementById('cosmos-canvas');
+      const ctx    = canvas.getContext('2d');
+
+      const INDIGO = 'rgba( 64, 64,168,';
+      const MYSTIC = 'rgba(153,104,216,';
+      const SILVER = 'rgba(176,176,200,';
+      const EMBER  = 'rgba(160, 56, 88,';
+      const DEEP   = [INDIGO, MYSTIC, SILVER, EMBER];
+
+      let W, H;
+      const resize = () => {
+        W = canvas.width  = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      };
+      window.addEventListener('resize', () => { resize(); rebuildAll(); });
+      resize();
+
+      /* ═══ 1. CosmicStar — tiny persistent stars ═══ */
+      class CosmicStar {
+        constructor() { this.reset(true); }
+        reset(init = false) {
+          this.x    = Math.random() * W;
+          this.y    = Math.random() * H;
+          this.r    = Math.random() * 1.1 + 0.2;
+          this.life    = init ? Math.random() * 400 : 0;
+          this.maxLife = Math.random() * 300 + 200;
+          this.twinkle = Math.random() * Math.PI * 2;
+          this.color   = Math.random() < 0.55 ? SILVER :
+                          (Math.random() < 0.5 ? MYSTIC : INDIGO);
+        }
+        update() {
+          this.life++;
+          this.twinkle += 0.025;
+          if (this.life > this.maxLife) this.reset();
+        }
+        draw() {
+          const t = this.life / this.maxLife;
+          const tw = (Math.sin(this.twinkle) * 0.5 + 0.5);
+          const a  = (t < 0.15 ? t / 0.15 : t > 0.85 ? (1-t)/0.15 : 1) * tw;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+          ctx.fillStyle = this.color + (a * 0.7) + ')';
+          ctx.fill();
+          /* cross gleam */
+          if (this.r > 0.8 && tw > 0.7) {
+            ctx.strokeStyle = this.color + (a * 0.35) + ')';
+            ctx.lineWidth   = 0.4;
+            const gl = this.r * 3.5;
+            ctx.beginPath();
+            ctx.moveTo(this.x - gl, this.y);
+            ctx.lineTo(this.x + gl, this.y);
+            ctx.moveTo(this.x, this.y - gl);
+            ctx.lineTo(this.x, this.y + gl);
+            ctx.stroke();
+          }
+        }
+      }
+
+      /* ═══ 2. NebulaMist — soft drifting color mist ═══ */
+      class NebulaMist {
+        constructor() { this.reset(true); }
+        reset(init = false) {
+          this.x     = Math.random() * W;
+          this.y     = init ? Math.random() * H : H + 80;
+          this.r     = Math.random() * 120 + 60;
+          this.vy    = -(Math.random() * 0.12 + 0.03);
+          this.vx    = (Math.random() - 0.5) * 0.08;
+          this.life     = 0;
+          this.maxLife  = Math.random() * 700 + 500;
+          this.color    = DEEP[Math.floor(Math.random() * DEEP.length)];
+          this.phase    = Math.random() * Math.PI * 2;
+        }
+        update() {
+          this.x += this.vx + Math.sin(this.life * 0.008 + this.phase) * 0.2;
+          this.y += this.vy;
+          this.life++;
+          if (this.y + this.r < -10 || this.life > this.maxLife) this.reset();
+        }
+        draw() {
+          const t   = this.life / this.maxLife;
+          const a   = t < 0.1 ? t / 0.1 : t > 0.88 ? (1-t)/0.12 : 1;
+          const grd = ctx.createRadialGradient(
+            this.x, this.y, 0, this.x, this.y, this.r);
+          grd.addColorStop(0, this.color + (a * 0.12) + ')');
+          grd.addColorStop(1, this.color + '0)');
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+          ctx.fillStyle = grd;
+          ctx.fill();
+        }
+      }
+
+      /* ═══ 3. VisionRay — thin radial rays from center ═══ */
+      class VisionRay {
+        constructor() { this.reset(true); }
+        reset(init = false) {
+          /* all rays originate from viewport center */
+          this.cx    = W / 2;
+          this.cy    = H * 0.42;
+          this.angle = Math.random() * Math.PI * 2;
+          this.len   = Math.random() * Math.min(W, H) * 0.45 + 50;
+          this.prog  = init ? Math.random() : 0;
+          this.speed = Math.random() * 0.003 + 0.001;
+          this.maxLife  = Math.floor(1 / this.speed);
+          this.life     = 0;
+          this.color    = Math.random() < 0.6 ? MYSTIC :
+                           (Math.random() < 0.5 ? INDIGO : SILVER);
+          this.width    = Math.random() * 0.5 + 0.1;
+          this.delay    = init ? 0 : Math.floor(Math.random() * 300);
+        }
+        update() {
+          if (this.delay > 0) { this.delay--; return; }
+          this.prog += this.speed;
+          this.life++;
+          if (this.prog >= 1) this.reset();
+          /* Update center on resize */
+          this.cx = W / 2;
+          this.cy = H * 0.42;
+        }
+        draw() {
+          if (this.delay > 0 || this.prog <= 0) return;
+          const t  = this.prog;
+          const a  = t < 0.08 ? t / 0.08 : t > 0.85 ? (1-t)/0.15 : 1;
+          const ex = this.cx + Math.cos(this.angle) * this.len * t;
+          const ey = this.cy + Math.sin(this.angle) * this.len * t;
+          ctx.beginPath();
+          ctx.moveTo(this.cx, this.cy);
+          ctx.lineTo(ex, ey);
+          ctx.strokeStyle = this.color + (a * 0.16) + ')';
+          ctx.lineWidth   = this.width;
+          ctx.stroke();
+        }
+      }
+
+      /* ═══ 4. MysticRing — concentric expanding rings from center ═══ */
+      class MysticRing {
+        constructor() { this.reset(true); }
+        reset(init = false) {
+          this.cx      = W / 2;
+          this.cy      = H * 0.42;
+          this.r       = 0;
+          this.maxR    = Math.random() * 200 + 80;
+          this.life    = init ? Math.floor(Math.random() * 200) : 0;
+          this.maxLife = Math.random() * 280 + 180;
+          this.color   = Math.random() < 0.6 ? MYSTIC : INDIGO;
+          this.delay   = init ? 0 : Math.floor(Math.random() * 200);
+        }
+        update() {
+          if (this.delay > 0) { this.delay--; return; }
+          this.life++;
+          this.r = (this.life / this.maxLife) * this.maxR;
+          this.cx = W / 2;
+          this.cy = H * 0.42;
+          if (this.life >= this.maxLife) this.reset();
+        }
+        draw() {
+          if (this.delay > 0 || this.r <= 0) return;
+          const t = this.life / this.maxLife;
+          const a = (1 - t) * 0.22;
+          ctx.beginPath();
+          ctx.arc(this.cx, this.cy, this.r, 0, Math.PI * 2);
+          ctx.strokeStyle = this.color + a + ')';
+          ctx.lineWidth   = 0.6;
+          ctx.stroke();
+        }
+      }
+
+      /* ── Pools ── */
+      let stars, mists, rays, rings;
+      const rebuildAll = () => {
+        stars = Array.from({ length: 90 }, () => new CosmicStar());
+        mists = Array.from({ length: 12 }, () => new NebulaMist());
+        rays  = Array.from({ length: 30 }, () => new VisionRay());
+        rings = Array.from({ length: 16 }, () => new MysticRing());
+      };
+      rebuildAll();
+
+      /* ── Loop ── */
+      const loop = () => {
+        ctx.clearRect(0, 0, W, H);
+        mists.forEach(p => { p.update(); p.draw(); });
+        rings.forEach(p => { p.update(); p.draw(); });
+        rays.forEach(p  => { p.update(); p.draw(); });
+        stars.forEach(p => { p.update(); p.draw(); });
+        requestAnimationFrame(loop);
+      };
+      loop();
+    })();
+  </script>
+
+</body>
+</html>
