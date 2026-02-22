@@ -1,1 +1,1 @@
-# INFJ.KR
+# [INFJ.KR](https://infj.kr)
