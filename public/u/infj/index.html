@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>INFJ — infj.kr</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap" rel="stylesheet" />
+
+  <style type="text/tailwindcss">
+    @theme {
+      --color-mystic-50:   #f5f3ff;
+      --color-mystic-100:  #ede8ff;
+      --color-mystic-200:  #ddd5ff;
+      --color-mystic-300:  #c4b4fd;
+      --color-mystic-400:  #a688fa;
+      --color-mystic-500:  #8b5cf6;
+      --color-mystic-600:  #7c3aed;
+      --color-mystic-700:  #6d28d9;
+      --color-mystic-800:  #5b21b6;
+      --color-mystic-900:  #4c1d95;
+      --color-mystic-950:  #2e1065;
+
+      --color-oracle-300:  #c4b5fd;
+      --color-oracle-400:  #a78bfa;
+      --color-oracle-500:  #8b5cf6;
+
+      --color-dawn-300:    #fda4af;
+      --color-dawn-400:    #fb7185;
+      --color-dawn-500:    #f43f5e;
+
+      --color-moonbeam-300: #e2e8f0;
+      --color-moonbeam-400: #cbd5e1;
+      --color-moonbeam-500: #94a3b8;
+
+      --color-sage-400:    #6ee7b7;
+      --color-sage-500:    #34d399;
+
+      --color-abyss-900:   #07050f;
+      --color-abyss-950:   #04030a;
+
+      --font-serif:        "Cormorant Garamond", "Noto Serif KR", serif;
+      --font-serif-kr:     "Noto Serif KR", serif;
+      --font-sans:         "Inter", sans-serif;
+    }
+  </style>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: #07050f;
+      color: #e2e8f0;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Mystic nebula background ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 55% at 20% 30%, rgba(139,92,246,0.10) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 45% at 80% 70%, rgba(167,139,250,0.08) 0%, transparent 55%),
+        radial-gradient(ellipse 40% 35% at 50% 10%, rgba(244,63,94,0.05) 0%, transparent 50%);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── Fine grain ── */
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── Star field canvas ── */
+    #star-canvas {
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 1;
+    }
+
+    /* ── Particle layer ── */
+    #particle-layer {
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 2; overflow: hidden;
+    }
+    .particle {
+      position: absolute; opacity: 0; border-radius: 50%;
+      animation: float-orb var(--dur,14s) ease-in-out infinite;
+      animation-delay: var(--delay,0s);
+    }
+    @keyframes float-orb {
+      0%   { transform: translate(0,0) scale(0.6);   opacity: 0; }
+      20%  { opacity: var(--mop,0.5); }
+      50%  { transform: translate(var(--tx,20px), var(--ty,-40px)) scale(1.1); }
+      80%  { opacity: var(--mop,0.3); }
+      100% { transform: translate(var(--tx2,−10px), var(--ty2,-90px)) scale(0.7); opacity: 0; }
+    }
+
+    /* ── Prismatic top aurora ── */
+    .aurora {
+      position: fixed; top: 0; left: 0; right: 0; height: 60vh;
+      background:
+        radial-gradient(ellipse 80% 50% at 30% 0%, rgba(139,92,246,0.22) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 40% at 70% 0%, rgba(244,63,94,0.12) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 35% at 50% 0%, rgba(167,139,250,0.15) 0%, transparent 45%);
+      pointer-events: none; z-index: 2;
+      animation: aurora-shift 12s ease-in-out infinite alternate;
+    }
+    @keyframes aurora-shift {
+      0%   { opacity: 0.7; transform: scaleX(1); }
+      50%  { opacity: 1;   transform: scaleX(1.05); }
+      100% { opacity: 0.8; transform: scaleX(0.97); }
+    }
+
+    /* ── Shimmer — violet-rose-silver ── */
+    .shimmer-text {
+      background: linear-gradient(90deg,
+        #a78bfa 0%, #fda4af 18%, #e2e8f0 36%, #8b5cf6 54%, #fb7185 72%, #a78bfa 90%, #c4b5fd 100%);
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 8s linear infinite;
+    }
+    @keyframes shimmer {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 300% 50%; }
+    }
+
+    /* ── Cards ── */
+    .infj-card {
+      background: rgba(139,92,246,0.06);
+      border: 1px solid rgba(167,139,250,0.16);
+      border-radius: 16px;
+      transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+    }
+    .infj-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(139,92,246,0.18);
+      border-color: rgba(167,139,250,0.38);
+    }
+
+    /* ── Link buttons ── */
+    .link-btn {
+      display: flex; align-items: center; gap: 12px;
+      width: 100%; padding: 13px 18px; border-radius: 14px;
+      background: rgba(139,92,246,0.06);
+      border: 1px solid rgba(167,139,250,0.15);
+      color: #e2e8f0; text-decoration: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem; font-weight: 500;
+      transition: all 0.28s ease; cursor: pointer;
+    }
+    .link-btn:hover {
+      background: rgba(139,92,246,0.14);
+      border-color: rgba(167,139,250,0.40);
+      transform: translateX(5px);
+      box-shadow: 0 0 22px rgba(139,92,246,0.18);
+    }
+    .link-btn .btn-icon {
+      width: 34px; height: 34px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; flex-shrink: 0;
+    }
+
+    /* ── Avatar ── */
+    .avatar-wrap { position: relative; display: inline-block; }
+    .avatar-ring {
+      position: absolute; inset: -6px; border-radius: 50%;
+      background: conic-gradient(#8b5cf6,#fda4af,#e2e8f0,#a78bfa,#fb7185,#8b5cf6);
+      animation: spin-ring 9s linear infinite; z-index: -1;
+    }
+    @keyframes spin-ring { to { transform: rotate(360deg); } }
+    .avatar-img {
+      width: 96px; height: 96px; border-radius: 50%;
+      border: 3px solid #07050f;
+      position: relative; z-index: 1; display: block;
+    }
+    .status-dot {
+      width: 14px; height: 14px; background: #a78bfa;
+      border-radius: 50%; border: 3px solid #07050f;
+      position: absolute; bottom: 4px; right: 4px; z-index: 2;
+      animation: pulse-dot 4s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%,100% { box-shadow: 0 0 0 0 rgba(167,139,250,0.65); }
+      50%      { box-shadow: 0 0 0 8px rgba(167,139,250,0); }
+    }
+
+    /* ── Scroll reveal ── */
+    .reveal {
+      opacity: 0; transform: translateY(26px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Progress bars ── */
+    .bar-track {
+      height: 4px; background: rgba(255,255,255,0.07);
+      border-radius: 99px; overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%; border-radius: 99px; width: 0%;
+      transition: width 1.8s cubic-bezier(.25,.46,.45,.94);
+    }
+
+    /* ── Carousel ── */
+    .carousel-wrap { position: relative; overflow: hidden; border-radius: 16px; }
+    .carousel-track { display: flex; transition: transform 0.50s ease; }
+    .carousel-slide { min-width: 100%; position: relative; }
+    .carousel-slide img { width: 100%; height: 236px; object-fit: cover; display: block; }
+    .carousel-btn {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 34px; height: 34px;
+      background: rgba(7,5,15,0.65);
+      border: 1px solid rgba(167,139,250,0.35);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: #e2e8f0; font-size: 0.95rem;
+      transition: background 0.2s; z-index: 10;
+    }
+    .carousel-btn:hover { background: rgba(139,92,246,0.35); }
+    .carousel-prev { left: 10px; }
+    .carousel-next { right: 10px; }
+    .carousel-dots { display: flex; justify-content: center; gap: 6px; margin-top: 10px; }
+    .carousel-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: rgba(255,255,255,0.18); cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .carousel-dot.active { background: #a78bfa; transform: scale(1.5); }
+
+    /* ── Music player ── */
+    .vinyl {
+      width: 70px; height: 70px; border-radius: 50%;
+      background: conic-gradient(
+        #0d0820 0deg 30deg,  #160d38 30deg 60deg,
+        #0d0820 60deg 90deg, #160d38 90deg 120deg,
+        #0d0820 120deg 150deg,#160d38 150deg 180deg,
+        #0d0820 180deg 210deg,#160d38 210deg 240deg,
+        #0d0820 240deg 270deg,#160d38 270deg 300deg,
+        #0d0820 300deg 330deg,#160d38 330deg 360deg);
+      box-shadow: 0 0 0 7px #07050f, 0 0 0 9px rgba(167,139,250,0.22);
+      position: relative; flex-shrink: 0;
+    }
+    .vinyl::after {
+      content: ''; position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      width: 18px; height: 18px; border-radius: 50%;
+      background: #8b5cf6; box-shadow: 0 0 12px rgba(139,92,246,0.9);
+    }
+    .vinyl-spin { animation: spin 6s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .progress-bar-wrap { height: 4px; background: rgba(255,255,255,0.09); border-radius: 99px; overflow: hidden; }
+    .progress-bar-fill { height: 100%; background: linear-gradient(90deg,#8b5cf6,#fb7185); border-radius: 99px; width: 0%; }
+    .progress-anim { animation: pgrow 180s linear forwards; }
+    @keyframes pgrow { from { width:0%; } to { width:100%; } }
+
+    /* ── Tags ── */
+    .tag-pill {
+      display: inline-block; padding: 4px 12px; border-radius: 99px;
+      font-size: 0.70rem; font-weight: 500; border: 1px solid;
+    }
+
+    /* ── FAQ ── */
+    details summary { cursor: pointer; list-style: none; }
+    details summary::-webkit-details-marker { display: none; }
+    details[open] summary .faq-arrow { transform: rotate(180deg); }
+    .faq-arrow { transition: transform 0.3s; display: inline-block; }
+
+    /* ── Forms ── */
+    .form-input {
+      width: 100%;
+      background: rgba(139,92,246,0.06);
+      border: 1px solid rgba(167,139,250,0.18);
+      border-radius: 10px; padding: 10px 14px;
+      color: #e2e8f0; font-family: 'Inter',sans-serif;
+      font-size: 0.85rem; outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus { border-color: rgba(167,139,250,0.55); }
+    .form-input::placeholder { color: rgba(226,232,240,0.25); }
+
+    /* ── Section label ── */
+    .section-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.80rem; font-weight: 500;
+      font-style: italic;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(167,139,250,0.70);
+      margin-bottom: 14px;
+    }
+
+    /* ── Thin ornament divider ── */
+    .mystic-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(139,92,246,0.35), rgba(251,113,133,0.20), transparent);
+      margin: 6px 0 20px;
+    }
+
+    /* ── Feature image hover ── */
+    .spotlight-hover { position: relative; overflow: hidden; border-radius: 16px; cursor: pointer; }
+    .spotlight-hover img { width: 100%; height: 200px; object-fit: cover; display: block; transition: transform 0.45s ease; }
+    .spotlight-hover:hover img { transform: scale(1.05); }
+    .spotlight-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top,rgba(7,5,15,0.82) 0%,transparent 55%);
+      display: flex; align-items: flex-end; padding: 14px;
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .spotlight-hover:hover .spotlight-overlay { opacity: 1; }
+
+    /* ── Prophecy quote block ── */
+    .prophecy-block {
+      border-left: 2px solid rgba(167,139,250,0.45);
+      padding: 12px 16px;
+      background: rgba(139,92,246,0.06);
+      border-radius: 0 12px 12px 0;
+    }
+
+    /* ── Soul depth meter ── */
+    .depth-ring {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .depth-ring svg { transform: rotate(-90deg); }
+    .depth-ring .ring-val {
+      position: absolute;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #a78bfa;
+    }
+
+    /* ── Glyph corner decorations ── */
+    .glyph-deco {
+      position: fixed; pointer-events: none; z-index: 2; opacity: 0.10;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 6rem; line-height: 1;
+      color: #8b5cf6;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Aurora -->
+  <div class="aurora"></div>
+
+  <!-- Star canvas -->
+  <canvas id="star-canvas"></canvas>
+
+  <!-- Glyph decorations -->
+  <div class="glyph-deco" style="top:-10px;left:2px;">∞</div>
+  <div class="glyph-deco" style="bottom:20px;right:4px;font-size:5rem;color:#fb7185;">✦</div>
+
+  <!-- Particle layer -->
+  <div id="particle-layer"></div>
+
+  <!-- ════════════════════════════════
+       MAIN WRAPPER
+  ════════════════════════════════ -->
+  <div style="position:relative;z-index:3;max-width:480px;margin:0 auto;padding:28px 16px 64px;">
+
+    <!-- ══════════════
+         HERO
+    ══════════════ -->
+    <section style="text-align:center;padding:50px 0 34px;" class="reveal">
+
+      <!-- Epigraph -->
+      <p style="font-family:'Cormorant Garamond',serif;font-size:0.72rem;font-style:italic;letter-spacing:0.22em;text-transform:uppercase;color:rgba(167,139,250,0.42);margin-bottom:22px;">
+        Intuit · Empathize · Illuminate
+      </p>
+
+      <!-- Avatar -->
+      <div class="avatar-wrap" style="margin-bottom:22px;display:inline-block;">
+        <div class="avatar-ring"></div>
+        <img
+          class="avatar-img"
+          src="https://api.dicebear.com/9.x/shapes/svg?seed=infj&backgroundColor=0d0520&color=8b5cf6,fda4af,e2e8f0,a78bfa"
+          alt="INFJ Avatar"
+        />
+        <div class="status-dot"></div>
+      </div>
+
+      <!-- Title -->
+      <h1 class="shimmer-text" style="font-family:'Cormorant Garamond',serif;font-size:3.2rem;font-weight:500;letter-spacing:0.16em;margin-bottom:6px;line-height:1.05;">
+        INFJ
+      </h1>
+      <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.88rem;color:rgba(226,232,240,0.38);letter-spacing:0.14em;margin-bottom:14px;">
+        infj.kr · The Advocate
+      </p>
+
+      <div class="mystic-divider"></div>
+
+      <!-- Quote -->
+      <p style="font-family:'Noto Serif KR',serif;font-size:1.02rem;color:rgba(226,232,240,0.82);line-height:1.85;margin-bottom:20px;padding:0 6px;">
+        "가장 드문 영혼은 가장 깊은 곳에서 세상을 본다. 1%의 빛이 99%의 어둠을 이긴다."
+      </p>
+
+      <!-- Tags -->
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin-bottom:24px;">
+        <span class="tag-pill" style="background:rgba(139,92,246,0.14);border-color:rgba(167,139,250,0.35);color:#c4b5fd;">🔮 옹호자</span>
+        <span class="tag-pill" style="background:rgba(251,113,133,0.12);border-color:rgba(253,164,175,0.30);color:#fda4af;">💜 공감</span>
+        <span class="tag-pill" style="background:rgba(52,211,153,0.10);border-color:rgba(110,231,183,0.26);color:#6ee7b7;">✨ 직관</span>
+        <span class="tag-pill" style="background:rgba(226,232,240,0.08);border-color:rgba(203,213,225,0.22);color:#cbd5e1;">🌙 내향</span>
+        <span class="tag-pill" style="background:rgba(167,139,250,0.10);border-color:rgba(196,181,253,0.25);color:#c4b5fd;">🕊️ 이상</span>
+      </div>
+
+      <!-- I·N·F·J Stats -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:8px;">
+        <div class="infj-card" style="padding:14px 6px;text-align:center;">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:500;color:#a78bfa;line-height:1;">I</div>
+          <div style="font-size:0.6rem;color:rgba(226,232,240,0.36);margin-top:4px;">내향</div>
+        </div>
+        <div class="infj-card" style="padding:14px 6px;text-align:center;">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:500;color:#fda4af;line-height:1;">N</div>
+          <div style="font-size:0.6rem;color:rgba(226,232,240,0.36);margin-top:4px;">직관</div>
+        </div>
+        <div class="infj-card" style="padding:14px 6px;text-align:center;">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:500;color:#6ee7b7;line-height:1;">F</div>
+          <div style="font-size:0.6rem;color:rgba(226,232,240,0.36);margin-top:4px;">감정</div>
+        </div>
+        <div class="infj-card" style="padding:14px 6px;text-align:center;">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:500;color:#cbd5e1;line-height:1;">J</div>
+          <div style="font-size:0.6rem;color:rgba(226,232,240,0.36);margin-top:4px;">판단</div>
+        </div>
+      </div>
+      <p style="font-size:0.62rem;color:rgba(226,232,240,0.18);text-align:center;letter-spacing:0.10em;">
+        Introverted · Intuitive · Feeling · Judging
+      </p>
+
+      <!-- Rarity badge -->
+      <div style="display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:8px 18px;background:rgba(139,92,246,0.10);border:1px solid rgba(167,139,250,0.24);border-radius:99px;">
+        <span style="font-size:0.75rem;">🔮</span>
+        <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.85rem;color:#c4b5fd;letter-spacing:0.06em;">세계에서 가장 희귀한 유형 — 인구의 1~2%</span>
+      </div>
+    </section>
+
+    <!-- ══════════════
+         ANNOUNCEMENT
+    ══════════════ -->
+    <section style="margin-bottom:24px;" class="reveal">
+      <div style="
+        background:linear-gradient(135deg,rgba(139,92,246,0.12) 0%,rgba(251,113,133,0.07) 100%);
+        border:1px solid rgba(167,139,250,0.24);
+        border-radius:14px;padding:15px 18px;
+        display:flex;align-items:center;gap:13px;
+      ">
+        <span style="font-size:1.5rem;flex-shrink:0;">🌌</span>
+        <div>
+          <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.92rem;color:#c4b5fd;letter-spacing:0.04em;margin-bottom:3px;">New Vision: Advocate Vol.5</p>
+          <p style="font-size:0.76rem;color:rgba(226,232,240,0.48);">영혼의 언어로 쓴 새 콘텐츠 — 지금 만나보세요</p>
+        </div>
+        <span style="margin-left:auto;font-size:0.72rem;color:rgba(167,139,250,0.55);flex-shrink:0;">→</span>
+      </div>
+    </section>
+
+    <!-- ══════════════
+         SOCIAL LINKS
+    ══════════════ -->
+    <section style="margin-bottom:32px;" class="reveal">
+      <p class="section-label">— Connect</p>
+      <div style="display:flex;flex-direction:column;gap:9px;">
+
+        <a href="#" class="link-btn">
+          <span class="btn-icon" style="background:linear-gradient(135deg,#e1306c,#833ab4);">
+            <svg width="17" height="17" fill="white" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </span>
+          <span style="flex:1;">Instagram</span>
+          <span style="font-size:0.72rem;color:rgba(226,232,240,0.28);">@infj.kr</span>
+        </a>
+
+        <a href="#" class="link-btn">
+          <span class="btn-icon" style="background:#ff0000;">
+            <svg width="17" height="17" fill="white" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </span>
+          <span style="flex:1;">YouTube</span>
+          <span style="font-size:0.72rem;color:rgba(226,232,240,0.28);">INFJ Sanctuary</span>
+        </a>
+
+        <a href="#" class="link-btn">
+          <span class="btn-icon" style="background:#000;">
+            <svg width="17" height="17" fill="white" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.259 5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </span>
+          <span style="flex:1;">X (Twitter)</span>
+          <span style="font-size:0.72rem;color:rgba(226,232,240,0.28);">@infj_kr</span>
+        </a>
+
+        <a href="#" class="link-btn">
+          <span class="btn-icon" style="background:#24292e;">
+            <svg width="17" height="17" fill="white" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+          </span>
+          <span style="flex:1;">GitHub</span>
+          <span style="font-size:0.72rem;color:rgba(226,232,240,0.28);">infj-kr</span>
+        </a>
+
+        <a href="mailto:hello@infj.kr" class="link-btn">
+          <span class="btn-icon" style="background:linear-gradient(135deg,#8b5cf6,#fb7185);">✉️</span>
+          <span style="flex:1;">Email</span>
+          <span style="font-size:0.72rem;color:rgba(226,232,240,0.28);">hello@infj.kr</span>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ══════════════
+         SOUL TRAITS
+    ══════════════ -->
+    <section style="margin-bottom:32px;" class="reveal">
+      <p class="section-label">— Soul Depths</p>
+      <div style="display:flex;flex-direction:column;gap:11px;">
+
+        <div class="infj-card" style="padding:17px 18px;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+            <span style="font-size:1.3rem;">🔮</span>
+            <div>
+              <p style="font-family:'Cormorant Garamond',serif;font-size:0.95rem;font-weight:500;color:#c4b5fd;">Intuition · 예언적 직관</p>
+              <p style="font-size:0.73rem;color:rgba(226,232,240,0.42);">말하지 않아도 느끼는 숨겨진 진실</p>
+            </div>
+            <span style="margin-left:auto;font-family:'Cormorant Garamond',serif;font-size:0.9rem;color:#c4b5fd;font-weight:500;">98%</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill" style="--w:98%;background:linear-gradient(90deg,#7c3aed,#a78bfa);"></div>
+          </div>
+        </div>
+
+        <div class="infj-card" style="padding:17px 18px;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+            <span style="font-size:1.3rem;">💜</span>
+            <div>
+              <p style="font-family:'Cormorant Garamond',serif;font-size:0.95rem;font-weight:500;color:#fda4af;">Empathy · 심층 공감</p>
+              <p style="font-size:0.73rem;color:rgba(226,232,240,0.42);">타인의 고통을 내 것처럼 느끼는 능력</p>
+            </div>
+            <span style="margin-left:auto;font-family:'Cormorant Garamond',serif;font-size:0.9rem;color:#fda4af;font-weight:500;">96%</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill" style="--w:96%;background:linear-gradient(90deg,#f43f5e,#fda4af);"></div>
+          </div>
+        </div>
+
+        <div class="infj-card" style="padding:17px 18px;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+            <span style="font-size:1.3rem;">✨</span>
+            <div>
+              <p style="font-family:'Cormorant Garamond',serif;font-size:0.95rem;font-weight:500;color:#6ee7b7;">Vision · 이상향 추구</p>
+              <p style="font-size:0.73rem;color:rgba(226,232,240,0.42);">더 나은 세상을 향한 불꺼지지 않는 소명</p>
+            </div>
+            <span style="margin-left:auto;font-family:'Cormorant Garamond',serif;font-size:0.9rem;color:#6ee7b7;font-weight:500;">94%</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill" style="--w:94%;background:linear-gradient(90deg,#10b981,#6ee7b7);"></div>
+          </div>
+        </div>
+
+        <div class="infj-card" style="padding:17px 18px;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+            <span style="font-size:1.3rem;">🕊️</span>
+            <div>
+              <p style="font-family:'Cormorant Garamond',serif;font-size:0.95rem;font-weight:500;color:#cbd5e1;">Counsel · 치유의 말</p>
+              <p style="font-size:0.73rem;color:rgba(226,232,240,0.42);">상처 입은 영혼에게 닿는 섬세한 언어</p>
+            </div>
+            <span style="margin-left:auto;font-family:'Cormorant Garamond',serif;font-size:0.9rem;color:#cbd5e1;font-weight:500;">92%</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill" style="--w:92%;background:linear-gradient(90deg,#64748b,#cbd5e1);"></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ══════════════
+         PROPHECY QUOTES (unique INFJ section)
+    ══════════════ -->
+    <section style="margin-bottom:32px;" class="reveal">
+      <p class="section-label">— Inner Visions</p>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+
+        <div class="prophecy-block">
+          <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.02rem;color:#c4b5fd;line-height:1.8;margin-bottom:6px;">
+            "나는 당신이 말하지 않은 것을 듣는다."
+          </p>
+          <p style="font-size:0.7rem;color:rgba(226,232,240,0.38);">— INFJ의 비언어적 독해 능력</p>
+        </div>
+
+        <div class="prophecy-block" style="border-left-color:rgba(253,164,175,0.40);">
+          <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.02rem;color:#fda4af;line-height:1.8;margin-bottom:6px;">
+            "세상이 아직 보지 못한 것을 나는 이미 느낀다."
+          </p>
+          <p style="font-size:0.7rem;color:rgba(226,232,240,0.38);">— 직관적 선견지명</p>
+        </div>
+
+        <div class="prophecy-block" style="border-left-color:rgba(110,231,183,0.35);">
+          <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.02rem;color:#6ee7b7;line-height:1.8;margin-bottom:6px;">
+            "가장 조용한 사람이 가장 깊은 강이다."
+          </p>
+          <p style="font-size:0.7rem;color:rgba(226,232,240,0.38);">— 내향적 깊이의 역설</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ══════════════
+         SOUL DEPTH RINGS (unique INFJ section)
+    ══════════════ -->
+    <section style="margin-bottom:32px;" class="reveal">
+      <p class="section-label">— Depth Spectrum</p>
+      <div class="infj-card" style="padding:20px;">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;text-align:center;">
+
+          <div>
+            <div class="depth-ring" style="width:64px;height:64px;margin:0 auto 8px;">
+              <svg width="64" height="64" viewBox="0 0 64 64">
+                <circle cx="32" cy="32" r="26" fill="none" stroke="rgba(167,139,250,0.15)" stroke-width="5"/>
+                <circle cx="32" cy="32" r="26" fill="none" stroke="#a78bfa" stroke-width="5"
+                  stroke-dasharray="163.36" stroke-dashoffset="16.3"
+                  stroke-linecap="round"/>
+              </svg>
+              <span class="ring-val" style="font-size:0.72rem;">90%</span>
+            </div>
+            <p style="font-size:0.68rem;color:rgba(226,232,240,0.45);">직관</p>
+          </div>
+
+          <div>
+            <div class="depth-ring" style="width:64px;height:64px;margin:0 auto 8px;">
+              <svg width="64" height="64" viewBox="0 0 64 64">
+                <circle cx="32" cy="32" r="26" fill="none" stroke="rgba(253,164,175,0.15)" stroke-width="5"/>
+                <circle cx="32" cy="32" r="26" fill="none" stroke="#fda4af" stroke-width="5"
+                  stroke-dasharray="163.36" stroke-dashoffset="13.1"
+                  stroke-linecap="round"/>
+              </svg>
+              <span class="ring-val" style="font-size:0.72rem;color:#fda4af;">92%</span>
+            </div>
+            <p style="font-size:0.68rem;color:rgba(226,232,240,0.45);">공감</p>
+          </div>
+
+          <div>
+            <div class="depth-ring" style="width:64px;height:64px;margin:0 auto 8px;">
+              <svg width="64" height="64" viewBox="0 0 64 64">
+                <circle cx="32" cy="32" r="26" fill="none" stroke="rgba(110,231,183,0.15)" stroke-width="5"/>
+                <circle cx="32" cy="32" r="26" fill="none" stroke="#6ee7b7" stroke-width="5"
+                  stroke-dasharray="163.36" stroke-dashoffset="24.5"
+                  stroke-linecap="round"/>
+              </svg>
+              <span class="ring-val" style="font-size:0.72rem;color:#6ee7b7;">85%</span>
+            </div>
+            <p style="font-size:0.68rem;color:rgba(226,232,240,0.45);">치유</p>
+          </div>
+
+          <div>
+            <div class="depth-ring" style="width:64px;height:64px;margin:0 auto 8px;">
+              <svg width="64" height="64" viewBox="0 0 64 64">
+                <circle cx="32" cy="32" r="26" fill="none" stroke="rgba(203,213,225,0.15)" stroke-width="5"/>
+                <circle cx="32" cy="32" r="26" fill="none" stroke="#cbd5e1" stroke-width="5"
+                  stroke-dasharray="163.36" stroke-dashoffset="19.6"
+                  stroke-linecap="round"/>
+              </svg>
+              <span class="ring-val" style="font-size:0.72rem;color:#cbd5e1;">88%</span>
+            </div>
+            <p style="font-size:0.68rem;color:rgba(226,232,240,0.45);">비전</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════
+         FEATURED VIDEO
+    ══════════════ -->
+    <section style="margin-bottom:32px;" class="reveal">
+      <p class="section-label">— Featured Vision</p>
+      <div class="infj-card" style="overflow:hidden;padding:0;">
+        <div style="position:relative;padding-bottom:56.25%;height:0;">
+          <iframe
+            style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
+            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+            title="INFJ Featured Video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div style="padding:13px 16px;border-top:1px solid rgba(167,139,250,0.12);">
+          <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.92rem;color:#c4b5fd;margin-bottom:4px;">🔮 The Advocate's Inner World — 옹호자의 내면 세계</p>
+          <div style="display:flex;align-items:center;gap:11px;">
+            <span style="font-size:0.7rem;color:rgba(226,232,240,0.35);">👁 33.6K</span>
+            <span style="font-size:0.7rem;color:rgba(226,232,240,0.35);">❤️ 4.8K</span>
+            <span style="margin-left:auto;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.7rem;color:rgba(167,139,250,0.50);">INFJ.kr</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════
+         VIDEO PLAYLIST
+    ══════════════ -->
+    <section style="margin-bottom:32px;" class="reveal">
+      <p class="section-label">— Sanctuary Playlist</p>
+      <div class="infj-card" style="padding:7px;">
+        <div style="display:flex;flex-direction:column;gap:1px;">
+
+          <div style="display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:10px;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='rgba(139,92,246,0.10)'" onmouseout="this.style.background='transparent'">
+            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/default.jpg" alt="" style="width:62px;height:46px;object-fit:cover;border-radius:8px;flex-shrink:0;" />
+            <div style="flex:1;min-width:0;">
+              <p style="font-size:0.8rem;font-weight:500;color:#e2e8f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">INFJ가 사람에게 지치는 진짜 이유</p>
+              <p style="font-size:0.7rem;color:rgba(226,232,240,0.32);margin-top:2px;">24.9K · 11:22</p>
+            </div>
+            <span style="font-size:0.9rem;color:rgba(167,139,250,0.55);flex-shrink:0;">▶</span>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:10px;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='rgba(139,92,246,0.10)'" onmouseout="this.style.background='transparent'">
+            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/default.jpg" alt="" style="width:62px;height:46px;object-fit:cover;border-radius:8px;flex-shrink:0;" />
+            <div style="flex:1;min-width:0;">
+              <p style="font-size:0.8rem;font-weight:500;color:#e2e8f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">예언자의 직관 — 미래를 읽는 법</p>
+              <p style="font-size:0.7rem;color:rgba(226,232,240,0.32);margin-top:2px;">19.2K · 9:45</p>
+            </div>
+            <span style="font-size:0.9rem;color:rgba(167,139,250,0.55);flex-shrink:0;">▶</span>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:10px;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='rgba(139,92,246,0.10)'" onmouseout="this.style.background='transparent'">
+            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/default.jpg" alt="" style="width:62px;height:46px;object-fit:cover;border-radius:8px;flex-shrink:0;" />
+            <div style="flex:1;min-width:0;">
+              <p style="font-size:0.8rem;font-weight:500;color:#e2e8f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">1%의 조용한 혁명 — INFJ의 사명</p>
+              <p style="font-size:0.7rem;color:rgba(226,232,240,0.32);margin-top:2px;">14.7K · 13:08</p>
+            </div>
+            <span style="font-size:0.9rem;color:rgba(167,139,250,0.55);flex-shrink:0;">▶</span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════
+         IMAGE CAROUSEL
+    ══════════════ -->
+    <section style="margin-bottom:32px;" class="reveal">
+      <p class="section-label">— Gallery</p>
+      <div class="carousel-wrap" id="carousel">
+        <div class="carousel-track" id="carouselTrack">
+
+          <div class="carousel-slide">
+            <img src="https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?w=480&q=80" alt="Mystic" />
+            <div style="position:absolute;bottom:0;left:0;right:0;padding:11px 14px;background:linear-gradient(to top,rgba(7,5,15,0.84),transparent);">
+              <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.82rem;color:#e2e8f0;">🌌 신비의 밤</p>
+            </div>
+          </div>
+
+          <div class="carousel-slide">
+            <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=480&q=80" alt="Aurora" />
+            <div style="position:absolute;bottom:0;left:0;right:0;padding:11px 14px;background:linear-gradient(to top,rgba(7,5,15,0.84),transparent);">
+              <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.82rem;color:#e2e8f0;">🔮 오로라의 예언</p>
+            </div>
+          </div>
+
+          <div class="carousel-slide">
+            <img src="https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?w=480&q=80" alt="Solitude" />
+            <div style="position:absolute;bottom:0;left:0;right:0;padding:11px 14px;background:linear-gradient(to top,rgba(7,5,15,0.84),transparent);">
+              <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.82rem;color:#e2e8f0;">🌙 고독의 성소</p>
+            </div>
+          </div>
+
+          <div class="carousel-slide">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=480&q=80" alt="Vision" />
+            <div style="position:absolute;bottom:0;left:0;right:0;padding:11px 14px;background:linear-gradient(to top,rgba(7,5,15,0.84),transparent);">
+              <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.82rem;color:#e2e8f0;">✦ 내면의 빛</p>
+            </div>
+          </div>
+
+          <div class="carousel-slide">
+            <img src="https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=480&q=80" alt="Nature" />
+            <div style="position:absolute;bottom:0;left:0;right:0;padding:11px 14px;background:linear-gradient(to top,rgba(7,5,15,0.84),transparent);">
+              <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.82rem;color:#e2e8f0;">💜 자연과의 합일</p>
+            </div>
+          </div>
+
+        </div>
+        <button class="carousel-btn carousel-prev" id="carouselPrev" aria-label="Previous">‹</button>
+        <button class="carousel-btn carousel-next" id="carouselNext" aria-label="Next">›</button>
+      </div>
+      <div class="carousel-dots" id="carouselDots"></div>
+    </section>
+
+    <!-- ══════════════
+         FEATURE IMAGE
+    ══════════════ -->
+    <section style="margin-bottom:32px;" class="reveal">
+      <p class="section-label">— Spotlight</p>
+      <div class="spotlight-hover infj-card" style="border:0;">
+        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=480&q=80" alt="INFJ Spotlight" style="height:200px;" />
+        <div class="spotlight-overlay">
+          <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.88rem;color:#e2e8f0;background:rgba(139,92,246,0.65);padding:6px 14px;border-radius:99px;">내면 탐험하기 →</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════
+         MUSIC PLAYER
+    ══════════════ -->
+    <section style="margin-bottom:32px;" class="reveal">
+      <p class="section-label">— Now Playing</p>
+      <div class="infj-card" style="padding:18px;">
+        <div style="display:flex;align-items:center;gap:15px;margin-bottom:13px;">
+          <div class="vinyl" id="vinyl"></div>
+          <div style="flex:1;min-width:0;">
+            <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.95rem;color:#c4b5fd;margin-bottom:2px;">Soulful Silence</p>
+            <p style="font-size:0.72rem;color:rgba(226,232,240,0.40);margin-bottom:7px;">INFJ Sanctuary Vol.5</p>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar-fill" id="progressFill"></div>
+            </div>
+          </div>
+          <button onclick="toggleMusic()" id="playBtn" style="
+            width:40px;height:40px;border-radius:50%;
+            background:linear-gradient(135deg,#8b5cf6,#fb7185);
+            border:none;cursor:pointer;
+            display:flex;align-items:center;justify-content:center;
+            font-size:1rem;flex-shrink:0;
+            box-shadow:0 0 16px rgba(139,92,246,0.40);
+            transition:transform 0.2s;
+          ">▶</button>
+        </div>
+        <div style="border-top:1px solid rgba(167,139,250,0.10);padding-top:11px;display:flex;flex-direction:column;gap:7px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.76rem;color:rgba(226,232,240,0.55);">1. Soulful Silence</span>
+            <span style="font-size:0.7rem;color:#a78bfa;">5:14</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.76rem;color:rgba(226,232,240,0.30);">2. Midnight Oracle</span>
+            <span style="font-size:0.7rem;color:rgba(226,232,240,0.25);">4:38</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.76rem;color:rgba(226,232,240,0.30);">3. The Unseen Path</span>
+            <span style="font-size:0.7rem;color:rgba(226,232,240,0.25);">6:02</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════
+         PROJECT CARDS
+    ══════════════ -->
+    <section style="margin-bottom:32px;" class="reveal">
+      <p class="section-label">— Sacred Works</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;">
+
+        <div class="infj-card" style="padding:15px;">
+          <span style="font-size:1.35rem;display:block;margin-bottom:7px;">🔮</span>
+          <p style="font-family:'Cormorant Garamond',serif;font-size:0.9rem;font-weight:500;color:#c4b5fd;margin-bottom:3px;">Oracle Archive</p>
+          <p style="font-size:0.7rem;color:rgba(226,232,240,0.40);line-height:1.55;">직관의 기록 — 예언적 통찰 아카이브</p>
+        </div>
+
+        <div class="infj-card" style="padding:15px;">
+          <span style="font-size:1.35rem;display:block;margin-bottom:7px;">💜</span>
+          <p style="font-family:'Cormorant Garamond',serif;font-size:0.9rem;font-weight:500;color:#fda4af;margin-bottom:3px;">Soul Counsel</p>
+          <p style="font-size:0.7rem;color:rgba(226,232,240,0.40);line-height:1.55;">깊은 상처를 위한 치유의 공간</p>
+        </div>
+
+        <div class="infj-card" style="padding:15px;">
+          <span style="font-size:1.35rem;display:block;margin-bottom:7px;">🌌</span>
+          <p style="font-family:'Cormorant Garamond',serif;font-size:0.9rem;font-weight:500;color:#6ee7b7;margin-bottom:3px;">Vision Lab</p>
+          <p style="font-size:0.7rem;color:rgba(226,232,240,0.40);line-height:1.55;">미래를 향한 이상과 사명의 실험실</p>
+        </div>
+
+        <div class="infj-card" style="padding:15px;">
+          <span style="font-size:1.35rem;display:block;margin-bottom:7px;">🕊️</span>
+          <p style="font-family:'Cormorant Garamond',serif;font-size:0.9rem;font-weight:500;color:#cbd5e1;margin-bottom:3px;">Quiet Refuge</p>
+          <p style="font-size:0.7rem;color:rgba(226,232,240,0.40);line-height:1.55;">내향의 피로를 회복하는 고독의 성소</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ══════════════
+         RECENT POSTS
+    ══════════════ -->
+    <section style="margin-bottom:32px;" class="reveal">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <p class="section-label" style="margin-bottom:0;">— Recent Writings</p>
+        <a href="#" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.74rem;color:rgba(167,139,250,0.55);text-decoration:none;">All →</a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:9px;">
+
+        <div class="infj-card" style="padding:13px 16px;cursor:pointer;">
+          <p style="font-family:'Noto Serif KR',serif;font-size:0.84rem;font-weight:600;color:#e2e8f0;margin-bottom:5px;">1%의 영혼이 세상을 바꾸는 방법</p>
+          <p style="font-size:0.72rem;color:rgba(226,232,240,0.42);line-height:1.65;">가장 드문 사람들이 가장 깊은 흔적을 남기는 이유에 대한 성찰.</p>
+          <div style="display:flex;gap:7px;margin-top:7px;align-items:center;">
+            <span class="tag-pill" style="background:rgba(139,92,246,0.12);border-color:rgba(167,139,250,0.28);color:#c4b5fd;font-size:0.62rem;">사명</span>
+            <span style="font-size:0.62rem;color:rgba(226,232,240,0.24);margin-left:auto;">2026.02.22</span>
+          </div>
+        </div>
+
+        <div class="infj-card" style="padding:13px 16px;cursor:pointer;">
+          <p style="font-family:'Noto Serif KR',serif;font-size:0.84rem;font-weight:600;color:#e2e8f0;margin-bottom:5px;">나는 왜 당신의 고통이 보이는가</p>
+          <p style="font-size:0.72rem;color:rgba(226,232,240,0.42);line-height:1.65;">INFJ의 공감 능력 — 축복이자 짐인 타인의 감정을 흡수하는 삶.</p>
+          <div style="display:flex;gap:7px;margin-top:7px;align-items:center;">
+            <span class="tag-pill" style="background:rgba(251,113,133,0.10);border-color:rgba(253,164,175,0.26);color:#fda4af;font-size:0.62rem;">공감</span>
+            <span style="font-size:0.62rem;color:rgba(226,232,240,0.24);margin-left:auto;">2026.02.16</span>
+          </div>
+        </div>
+
+        <div class="infj-card" style="padding:13px 16px;cursor:pointer;">
+          <p style="font-family:'Noto Serif KR',serif;font-size:0.84rem;font-weight:600;color:#e2e8f0;margin-bottom:5px;">직관은 마법이 아니다 — 패턴을 읽는 내면의 언어</p>
+          <p style="font-size:0.72rem;color:rgba(226,232,240,0.42);line-height:1.65;">INFJ의 Ni(내향적 직관)가 실제로 작동하는 방식에 대한 해석.</p>
+          <div style="display:flex;gap:7px;margin-top:7px;align-items:center;">
+            <span class="tag-pill" style="background:rgba(52,211,153,0.10);border-color:rgba(110,231,183,0.24);color:#6ee7b7;font-size:0.62rem;">직관</span>
+            <span style="font-size:0.62rem;color:rgba(226,232,240,0.24);margin-left:auto;">2026.02.10</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ══════════════
+         FAQ
+    ══════════════ -->
+    <section style="margin-bottom:32px;" class="reveal">
+      <p class="section-label">— Sacred Questions</p>
+      <div class="infj-card" style="padding:7px;display:flex;flex-direction:column;gap:2px;">
+
+        <details style="border-radius:10px;overflow:hidden;">
+          <summary style="padding:13px 14px;font-family:'Cormorant Garamond',serif;font-size:0.9rem;color:#e2e8f0;display:flex;justify-content:space-between;align-items:center;">
+            <span>INFJ는 어떤 유형인가요?</span>
+            <span class="faq-arrow" style="color:#a78bfa;font-size:0.72rem;">▼</span>
+          </summary>
+          <div style="padding:0 14px 13px;font-size:0.76rem;color:rgba(226,232,240,0.52);line-height:1.85;">
+            INFJ는 내향(I)·직관(N)·감정(F)·판단(J)의 조합으로, 전체 인구의 1~2%에 불과한 가장 희귀한 MBTI 유형입니다. "옹호자" 또는 "상담사"라는 별명처럼 깊은 공감 능력, 예언적 직관, 조용한 사명감을 동시에 지닌 복잡한 영혼입니다.
+          </div>
+        </details>
+
+        <details style="border-radius:10px;overflow:hidden;">
+          <summary style="padding:13px 14px;font-family:'Cormorant Garamond',serif;font-size:0.9rem;color:#e2e8f0;display:flex;justify-content:space-between;align-items:center;">
+            <span>INFJ의 가장 독특한 능력은?</span>
+            <span class="faq-arrow" style="color:#a78bfa;font-size:0.72rem;">▼</span>
+          </summary>
+          <div style="padding:0 14px 13px;font-size:0.76rem;color:rgba(226,232,240,0.52);line-height:1.85;">
+            내향적 직관(Ni)을 통한 패턴 인식과 미래 예측, 그리고 타인의 숨겨진 동기와 감정을 읽는 능력입니다. 말하지 않아도 무언가 잘못되었음을 직감하고, 복잡한 상황 뒤의 근본 원인을 꿰뚫어 봅니다.
+          </div>
+        </details>
+
+        <details style="border-radius:10px;overflow:hidden;">
+          <summary style="padding:13px 14px;font-family:'Cormorant Garamond',serif;font-size:0.9rem;color:#e2e8f0;display:flex;justify-content:space-between;align-items:center;">
+            <span>infj.kr에 연락하려면?</span>
+            <span class="faq-arrow" style="color:#a78bfa;font-size:0.72rem;">▼</span>
+          </summary>
+          <div style="padding:0 14px 13px;font-size:0.76rem;color:rgba(226,232,240,0.52);line-height:1.85;">
+            <a href="mailto:hello@infj.kr" style="color:#a78bfa;text-decoration:none;">hello@infj.kr</a>로 이메일을 보내거나 아래 연락 폼을 이용해 주세요. 피상적인 대화보다 깊이 있는 이야기를 환영합니다 🔮
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ══════════════
+         NEWSLETTER
+    ══════════════ -->
+    <section style="margin-bottom:32px;" class="reveal">
+      <p class="section-label">— Subscribe</p>
+      <div class="infj-card" style="padding:20px 18px;">
+        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.05rem;color:#c4b5fd;margin-bottom:5px;">영혼의 편지 받아보기</p>
+        <p style="font-size:0.76rem;color:rgba(226,232,240,0.42);margin-bottom:14px;line-height:1.68;">공개하지 않은 내면의 통찰, 예언적 글쓰기, INFJ 심층 에세이를 뉴스레터로 전합니다.</p>
+        <div id="subForm" style="display:flex;flex-direction:column;gap:9px;">
+          <input type="email" id="subEmail" placeholder="your@email.com" class="form-input" />
+          <button onclick="doSubscribe()" style="
+            padding:11px;border-radius:10px;
+            background:linear-gradient(135deg,#8b5cf6,#fb7185);
+            border:none;cursor:pointer;
+            font-family:'Cormorant Garamond',serif;
+            font-style:italic;font-size:0.98rem;letter-spacing:0.06em;color:#07050f;
+            transition:opacity 0.2s;
+            font-weight:500;
+          " onmouseover="this.style.opacity='0.82'" onmouseout="this.style.opacity='1'">
+            🔮 영혼의 편지 받기
+          </button>
+        </div>
+        <div id="subSuccess" style="display:none;text-align:center;padding:11px;">
+          <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.92rem;color:#6ee7b7;">✦ 연결되었습니다 — 첫 번째 편지가 곧 도착합니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════
+         CONTACT FORM
+    ══════════════ -->
+    <section style="margin-bottom:40px;" class="reveal">
+      <p class="section-label">— Deep Conversation</p>
+      <div class="infj-card" style="padding:20px 18px;">
+        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.05rem;color:#c4b5fd;margin-bottom:5px;">깊은 이야기를 나눠요</p>
+        <p style="font-size:0.76rem;color:rgba(226,232,240,0.42);margin-bottom:14px;line-height:1.68;">가벼운 인사보다 진심이 담긴 메시지를 환영합니다. 당신의 이야기를 들을 준비가 되어 있습니다.</p>
+        <div id="contactForm" style="display:flex;flex-direction:column;gap:9px;">
+          <input type="text"  id="contactName"  placeholder="이름" class="form-input" />
+          <input type="email" id="contactEmail" placeholder="이메일" class="form-input" />
+          <select id="contactTopic" class="form-input" style="appearance:none;-webkit-appearance:none;">
+            <option value="" disabled selected style="background:#0e0820;">대화 주제</option>
+            <option value="collab"  style="background:#0e0820;">🌌 창작 협업</option>
+            <option value="counsel" style="background:#0e0820;">💜 심층 상담</option>
+            <option value="vision"  style="background:#0e0820;">🔮 비전 나누기</option>
+            <option value="writing" style="background:#0e0820;">✦ 글쓰기·기고</option>
+            <option value="other"   style="background:#0e0820;">🕊️ 그냥 안녕</option>
+          </select>
+          <textarea id="contactMsg" placeholder="진심을 담아 써주세요 — 어떤 이야기도 괜찮습니다." class="form-input" style="resize:vertical;min-height:90px;"></textarea>
+          <button onclick="doContact()" style="
+            padding:11px;border-radius:10px;
+            background:linear-gradient(135deg,#8b5cf6,#fb7185);
+            border:none;cursor:pointer;
+            font-family:'Cormorant Garamond',serif;
+            font-style:italic;font-size:0.98rem;letter-spacing:0.06em;color:#07050f;
+            transition:opacity 0.2s;
+            font-weight:500;
+          " onmouseover="this.style.opacity='0.82'" onmouseout="this.style.opacity='1'">
+            영혼으로 보내기 ✦
+          </button>
+        </div>
+        <div id="contactSuccess" style="display:none;text-align:center;padding:13px;">
+          <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.92rem;color:#6ee7b7;">✦ 메시지가 닿았습니다 — 곧 답하겠습니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════
+         FOOTER
+    ══════════════ -->
+    <footer style="text-align:center;padding-top:22px;border-top:1px solid rgba(167,139,250,0.12);" class="reveal">
+      <div class="mystic-divider" style="margin-bottom:16px;"></div>
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin-bottom:14px;">
+        <span class="tag-pill" style="background:rgba(139,92,246,0.12);border-color:rgba(167,139,250,0.28);color:#c4b5fd;">Introverted</span>
+        <span class="tag-pill" style="background:rgba(253,164,175,0.10);border-color:rgba(253,164,175,0.25);color:#fda4af;">Intuitive</span>
+        <span class="tag-pill" style="background:rgba(110,231,183,0.10);border-color:rgba(110,231,183,0.24);color:#6ee7b7;">Feeling</span>
+        <span class="tag-pill" style="background:rgba(203,213,225,0.08);border-color:rgba(203,213,225,0.22);color:#cbd5e1;">Judging</span>
+      </div>
+      <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.92rem;color:rgba(226,232,240,0.34);margin-bottom:7px;">
+        "1%의 빛이 99%의 어둠을 비춘다."
+      </p>
+      <a href="https://infj.kr" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.82rem;font-weight:500;letter-spacing:0.10em;color:#a78bfa;text-decoration:none;">infj.kr</a>
+      <div class="mystic-divider" style="margin-top:14px;margin-bottom:10px;"></div>
+      <p style="font-size:0.60rem;color:rgba(226,232,240,0.16);letter-spacing:0.08em;">
+        I · N · F · J · Made with Tailwind CSS 4
+      </p>
+    </footer>
+
+  </div><!-- /main wrapper -->
+
+  <script>
+    /* ══ Star field ══ */
+    (function() {
+      const canvas = document.getElementById('star-canvas');
+      const ctx    = canvas.getContext('2d');
+      let stars    = [];
+
+      function resize() {
+        canvas.width  = window.innerWidth;
+        canvas.height = window.innerHeight;
+        stars = Array.from({ length: 80 }, () => ({
+          x:    Math.random() * canvas.width,
+          y:    Math.random() * canvas.height,
+          r:    0.3 + Math.random() * 1.4,
+          a:    Math.random(),
+          da:   0.003 + Math.random() * 0.008,
+          hue:  Math.random() > 0.6 ? 270 : (Math.random() > 0.5 ? 340 : 220),
+        }));
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      function tick() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        stars.forEach(s => {
+          s.a += s.da;
+          const alpha = 0.3 + 0.7 * Math.abs(Math.sin(s.a));
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fillStyle = `hsla(${s.hue},70%,80%,${alpha})`;
+          ctx.fill();
+        });
+        requestAnimationFrame(tick);
+      }
+      tick();
+    })();
+
+    /* ══ Mystic orb particles ══ */
+    (function() {
+      const layer  = document.getElementById('particle-layer');
+      const colors = ['#8b5cf6','#a78bfa','#fda4af','#fb7185','#e2e8f0','#6ee7b7','#c4b5fd'];
+
+      for (let i = 0; i < 38; i++) {
+        const p     = document.createElement('div');
+        p.className = 'particle';
+        const size  = 3 + Math.random() * 8;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const tx    = (Math.random() - 0.5) * 80;
+        const ty    = -(50 + Math.random() * 100);
+        const tx2   = (Math.random() - 0.5) * 40;
+        const ty2   = -(80 + Math.random() * 140);
+
+        p.style.cssText = `
+          width:${size}px; height:${size}px;
+          left:${Math.random() * 100}%;
+          top:${10 + Math.random() * 85}%;
+          background:${color};
+          --dur:${12 + Math.random() * 16}s;
+          --delay:${Math.random() * 12}s;
+          --mop:${0.15 + Math.random() * 0.40};
+          --tx:${tx}px;
+          --ty:${ty}px;
+          --tx2:${tx2}px;
+          --ty2:${ty2}px;
+          box-shadow:0 0 ${6 + Math.random()*8}px ${color};
+          filter:blur(${Math.random() * 1.5}px);
+        `;
+        layer.appendChild(p);
+      }
+    })();
+
+    /* ══ Scroll Reveal + Bar Animations ══ */
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          e.target.querySelectorAll('.bar-fill').forEach(bar => {
+            const w = bar.style.getPropertyValue('--w');
+            if (w) bar.style.width = w;
+          });
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    /* ══ Carousel ══ */
+    const track    = document.getElementById('carouselTrack');
+    const slides   = track ? track.querySelectorAll('.carousel-slide') : [];
+    const dotsWrap = document.getElementById('carouselDots');
+    let current    = 0, autoTimer, touchStartX = 0;
+
+    if (slides.length) {
+      slides.forEach((_, i) => {
+        const dot = document.createElement('div');
+        dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+        dot.addEventListener('click', () => gotoSlide(i));
+        dotsWrap.appendChild(dot);
+      });
+
+      function gotoSlide(n) {
+        current = (n + slides.length) % slides.length;
+        track.style.transform = `translateX(-${current * 100}%)`;
+        dotsWrap.querySelectorAll('.carousel-dot').forEach((d, i) =>
+          d.classList.toggle('active', i === current));
+      }
+
+      function startAuto() { autoTimer = setInterval(() => gotoSlide(current + 1), 5500); }
+      function stopAuto()  { clearInterval(autoTimer); }
+
+      document.getElementById('carouselPrev')?.addEventListener('click', () => { stopAuto(); gotoSlide(current - 1); startAuto(); });
+      document.getElementById('carouselNext')?.addEventListener('click', () => { stopAuto(); gotoSlide(current + 1); startAuto(); });
+
+      const cw = document.getElementById('carousel');
+      cw.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; stopAuto(); }, { passive: true });
+      cw.addEventListener('touchend',   e => {
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(dx) > 38) gotoSlide(dx < 0 ? current + 1 : current - 1);
+        startAuto();
+      });
+      document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowLeft')  gotoSlide(current - 1);
+        if (e.key === 'ArrowRight') gotoSlide(current + 1);
+      });
+      cw.addEventListener('mouseenter', stopAuto);
+      cw.addEventListener('mouseleave', startAuto);
+      startAuto();
+    }
+
+    /* ══ Music Player ══ */
+    let playing = false;
+    function toggleMusic() {
+      playing = !playing;
+      const vinyl = document.getElementById('vinyl');
+      const btn   = document.getElementById('playBtn');
+      const prog  = document.getElementById('progressFill');
+      if (playing) {
+        vinyl.classList.add('vinyl-spin');
+        prog.classList.add('progress-anim');
+        btn.textContent = '⏸';
+        btn.style.background = 'linear-gradient(135deg,#fb7185,#8b5cf6)';
+      } else {
+        vinyl.classList.remove('vinyl-spin');
+        prog.classList.remove('progress-anim');
+        btn.textContent = '▶';
+        btn.style.background = 'linear-gradient(135deg,#8b5cf6,#fb7185)';
+      }
+    }
+
+    /* ══ Forms ══ */
+    function doSubscribe() {
+      const email = document.getElementById('subEmail').value.trim();
+      if (!email || !email.includes('@')) {
+        document.getElementById('subEmail').style.borderColor = '#f43f5e';
+        return;
+      }
+      document.getElementById('subForm').style.display    = 'none';
+      document.getElementById('subSuccess').style.display = 'block';
+    }
+
+    function doContact() {
+      const name  = document.getElementById('contactName').value.trim();
+      const email = document.getElementById('contactEmail').value.trim();
+      const msg   = document.getElementById('contactMsg').value.trim();
+      if (!name || !email || !msg) return;
+      document.getElementById('contactForm').style.display    = 'none';
+      document.getElementById('contactSuccess').style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>
